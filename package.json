@@ -2,7 +2,7 @@
   "name": "votingblock",
   "version": "1.0.0",
   "description": "Project for setting up a blockchain voting system at Lakeside",
-  "main": "index.js",
+  "main": "./src/html/index.js",
   "scripts": {
     "dev": "lite-server",
     "test": "echo \"Error: no test specified\" && exit 1"
