@@ -1,27 +1,16 @@
 {
   "name": "votingblock",
-  "version": "1.0.0",
-  "description": "Project for setting up a blockchain voting system at Lakeside",
-  "main": "./src/html/index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kaitlynchen77/VotingBlock.git"
-  },
-  "author": "Darrow, Kaitlyn, Bryce",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kaitlynchen77/VotingBlock/issues"
-  },
-  "homepage": "https://github.com/kaitlynchen77/VotingBlock#readme",
-  "devDependencies": {
-    "lite-server": "^2.6.1",
-    "bootstrap": "4.1.3",
-    "nodemon": "^1.17.3",
-    "truffle": "^5.0.2",
-    "truffle-contract": "3.0.6"
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
   }
 }

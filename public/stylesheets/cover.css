@@ -2,6 +2,9 @@
  * Globals
  */
 
+ *{
+  color: red !important;
+ }
 
 /* Custom default button */
 .btn-secondary,
@@ -34,7 +37,8 @@ body {
   padding: .25rem 0;
   font-weight: 700;
   color: rgba(255, 255, 255, .5);
-  background-color: transparent;
+  /* background-color: transparent; */
+  background-image: url("../assets/moore_bg.jpeg");
   border-bottom: .25rem solid transparent;
 }
 
