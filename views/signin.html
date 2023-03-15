@@ -57,7 +57,22 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <button class="w-100 btn btn-lg btn-primary" id="signinButton" type="button" onclick="metaMaskSignin();">Sign in</button>
+    <script> 
+      <!--src="../routes/signin.js"-->
+      function metaMaskSignin() {
+        document.getElementById('signinButton').textContent="Signed in";
+        if (typeof window.ethereum !== 'undefined') {
+          console.log('MetaMask is installed!');
+          getAccount();
+        }
+      }
+      async function getAccount() {
+        const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        showAccount.innerHTML = account;
+      }
+    </script>
     <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
   </form>
 </main>
