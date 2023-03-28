@@ -6,11 +6,11 @@ function checkSignin() {
       }
 }
 async function checkAccounts() {
-    const accounts= await ethereum.request({ method: 'eth_accounts' }).then(stuff).catch((err) => {
+    const accounts= await ethereum.request({ method: 'eth_accounts' }).then(redirect).catch((err) => {
       console.error(err);
     });
 }
-function stuff(accounts) {
+function redirect(accounts) {
     if(accounts.length===0) {
         window.location.href = "./signin";
     } else {
