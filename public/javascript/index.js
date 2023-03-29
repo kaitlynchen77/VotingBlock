@@ -12,7 +12,7 @@ async function checkAccounts() {
 }
 function redirect(accounts) {
     if(accounts.length===0) {
-        window.location.href = "./signin";
+        ethereum.request({ method: 'eth_requestAccounts' });
     } else {
         window.location.href = "./voting";
     }
