@@ -17,10 +17,18 @@ async function checkAccounts() {
 }
 function redirect(accounts) {
     if(accounts.length===0) {
-        ethereum.request({ method: 'eth_requestAccounts' });
+        connect();
     } else {
         window.location.href = "./voting";
     }
 }
-
-init_web3()
+async function connect() { // code from https://github.com/nikitamarcius
+  const accounts = await window.ethereum.request({
+    method: "wallet_requestPermissions",
+    params: [{
+        eth_accounts: {}
+    }]
+  }).then(() => ethereum.request({
+    method: 'eth_requestAccounts'
+  }))
+}
