@@ -1,8 +1,7 @@
 # Lakeside CS 5: Blockchain Voting Project
 
 
-To run development reloading server, run `npm run watch`
-For static server, run `npm start`
+To start server run `nodemon app.js` in project directory
 
 ## Potential Issues When Running
 
