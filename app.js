@@ -13,6 +13,7 @@ nunjucks.configure('views', {
 
 var indexRouter = require('./routes/index');
 var votingRouter = require('./routes/voting');
+var initiateRouter = require('./routes/initiate');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,5 +30,6 @@ app.use(express.static(__dirname + '/public'));
 
 app.use('/', indexRouter);
 app.use('/voting', votingRouter)
+app.use('/initiate', initiateRouter)
 
 module.exports = app;
