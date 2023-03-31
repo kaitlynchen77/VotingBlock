@@ -12,20 +12,9 @@ nunjucks.configure('views', {
   express: app
 });
 
-let web3 = new Web3(Web3.givenProvider || "ws://localhost:7545");
-
-//Integrating with metamask (From truffle docs)
-if (typeof web3 !== 'undefined') {
-  app.web3Provider = web3.currentProvider;
-  web3 = new Web3(web3.currentProvider);
-} else {
-  // If no injected web3 instance is detected, fallback to Ganache.
-  app.web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
-  web3 = new Web3(App.web3Provider);
-}
-
 const indexRouter = require('./routes/index');
 const votingRouter = require('./routes/voting');
+const initiateRouter = require('./routes/initiate');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,6 +31,39 @@ app.use(express.static(__dirname + '/public'));
 
 app.use('/', indexRouter);
 app.use('/voting', votingRouter)
+app.use('/initiate', initiateRouter)
+
+
+
+module.exports = app;
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+
+let web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+// web 3 code
+// Is there an injected web3 instance?
+if (typeof web3 !== 'undefined') {
+  app.web3Provider = web3.currentProvider;
+  web3 = new Web3(web3.currentProvider);
+} else {
+  // If no injected web3 instance is detected, fallback to Ganache.
+  //IMPORTANT: if you are using Ganache GUI instead of CLI, change port in the line below to 7545
+  app.web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:8545');
+  web3 = new Web3(app.web3Provider);
+}
 
 // Start the server
 app.listen(3000, () => {
