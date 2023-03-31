@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+// var web3 = require('web3');
+
 
 // live reload code
 
@@ -57,5 +59,21 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
+const Web3 = require('web3');
+
+let web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
+// web 3 code
+// Is there an injected web3 instance?
+if (typeof web3 !== 'undefined') {
+  app.web3Provider = web3.currentProvider;
+  web3 = new Web3(web3.currentProvider);
+} else {
+  // If no injected web3 instance is detected, fallback to Ganache.
+  app.web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:8545');
+  web3 = new Web3(app.web3Provider);
+}
+
 
 module.exports = app;

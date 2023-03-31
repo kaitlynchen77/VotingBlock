@@ -1,3 +1,8 @@
+let web3 = require('../../app.js').web3;
+
+console.log(web3)
+
+
 function checkSignin() {
     if (typeof window.ethereum !== 'undefined') {
         checkAccounts();
@@ -17,3 +22,5 @@ function redirect(accounts) {
         window.location.href = "./voting";
     }
 }
+
+init_web3()

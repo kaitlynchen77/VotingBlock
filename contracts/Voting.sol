@@ -3,19 +3,28 @@ pragma solidity ^0.8.0;
 /*This code was taken from chat-gpt and then altered.
 */
 contract Voting {
+    
     // Candidate struct
     struct Candidate {
         string name;
         uint voteCount;
     }
 
+    // structure of election
+    struct Election {
+        string election_title;
+    }
+
     // Array of candidates
     Candidate[] public candidates;
+
+    Election public main_election;
 
     // Constructor to initialize the candidates
     constructor() {
         addCandidate("Candidate 1");
         addCandidate("Candidate 2");
+        main_election = Election("test election");
     }
 
     // Function to vote for a candidate
@@ -38,5 +47,9 @@ contract Voting {
 
     function addCandidate(string memory _name) public {
         candidates.push(Candidate(_name, 0));
+    }
+
+    function createElection() public{
+        
     }
 }
