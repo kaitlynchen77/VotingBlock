@@ -1,6 +1,6 @@
-let web3 = require('../../app.js').web3;
+// let web3 = require('../../app.js').web3;
 
-console.log(web3)
+// console.log(web3)
 
 
 function checkSignin() {

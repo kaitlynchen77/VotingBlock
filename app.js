@@ -20,7 +20,11 @@ const testRouter = require('./routes/test');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+<<<<<<< HEAD
 // app.engine('html', require('ejs').renderFile);  DELETE LATER
+=======
+// app.engine('html', require('ejs').renderFile);
+>>>>>>> 918d5230fb4b140f582cff5ff52fec3413067ac0
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
@@ -39,7 +43,7 @@ app.use('/test', testRouter)
 
 
 
-module.exports = app;
+// module.exports = app;
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -69,7 +73,11 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(app.web3Provider);
 }
 
+<<<<<<< HEAD
 // Start the server
+=======
+// // Start the server
+>>>>>>> 918d5230fb4b140f582cff5ff52fec3413067ac0
 // app.listen(3000, () => {
 //   console.log('Server started on port 3000');
 // });
