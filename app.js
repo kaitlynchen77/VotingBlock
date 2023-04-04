@@ -15,10 +15,12 @@ nunjucks.configure('views', {
 const indexRouter = require('./routes/index');
 const votingRouter = require('./routes/voting');
 const initiateRouter = require('./routes/initiate');
+const testRouter = require('./routes/test');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-// app.engine('html', require('ejs').renderFile);
+// app.engine('html', require('ejs').renderFile);  DELETE LATER
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
@@ -32,6 +34,8 @@ app.use(express.static(__dirname + '/public'));
 app.use('/', indexRouter);
 app.use('/voting', votingRouter)
 app.use('/initiate', initiateRouter)
+app.use('/test', testRouter)
+
 
 
 
@@ -65,7 +69,7 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(app.web3Provider);
 }
 
-// // Start the server
+// Start the server
 // app.listen(3000, () => {
 //   console.log('Server started on port 3000');
 // });
