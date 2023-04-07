@@ -6,12 +6,13 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const nunjucks = require('nunjucks');
 const Web3 = require('web3');
-const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545"); 
+// const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545"); 
 
 async function getContract(MyContract) {
-  const accounts = await web3.eth.getAccounts();
   const votingInstance = await MyContract.deployed();
+  const accounts = await web3.eth.getAccounts();
   await votingInstance.vote(0, { from: accounts[0] });
+  return votingInstance
 }
 
 nunjucks.configure('views', {
@@ -86,6 +87,7 @@ const contract = require("@truffle/contract");
 const MyContract = contract(contractArtifact);
 MyContract.setProvider(web3Provider);
 const voting = getContract(MyContract)
+// vote(voting, getAccounts())
 
 
 
@@ -94,4 +96,8 @@ const voting = getContract(MyContract)
 //   console.log('Server started on port 3000');
 // });
 
-module.exports = app;
+module.exports = {
+  app: app,
+  MyContract: MyContract,
+  web3: web3
+};

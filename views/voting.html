@@ -14,8 +14,13 @@
 </head>
 
 <body>
-  <button type="button" class="btn btn-primary">Candidate 1</button>
-  <button type="button" class="btn btn-secondary">Candidate 2</button>
+  <form method="POST" action="/voting">
+    <button type="submit" class="btn btn-primary" name="id" value="0">Candidate 1</button>
+    <button type="submit" class="btn btn-secondary" name="id" value="1">Candidate 2</button>
+  </form>
 </body>
+
+<script src="javascript/voting.js"></script>
+
 
 </html>
