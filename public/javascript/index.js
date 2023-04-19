@@ -8,6 +8,7 @@ function checkSignin() {
         checkAccounts();
       } else {
         //send error message
+        console.log('Please install MetaMask or another web3 provider')
       }
 }
 async function checkAccounts() {
