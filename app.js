@@ -65,7 +65,7 @@ if (typeof web3 !== 'undefined') {
 } else {
   // If no injected web3 instance is detected, fallback to Ganache.
   //IMPORTANT: if you are using Ganache GUI instead of CLI, change port in the line below to 7545
-  app.web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:8545');
+  app.web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
   web3 = new Web3(app.web3Provider);
 }
 
