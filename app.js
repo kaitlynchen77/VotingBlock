@@ -5,15 +5,15 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const nunjucks = require('nunjucks');
-const Web3 = require('web3');
+// const Web3 = require('web3');
 // const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545"); 
 
-async function getContract(MyContract) {
-  const votingInstance = await MyContract.deployed();
-  const accounts = await web3.eth.getAccounts();
-  await votingInstance.vote(0, { from: accounts[0] });
-  return votingInstance
-}
+// async function getContract(MyContract) {
+//   const votingInstance = await MyContract.deployed();
+//   const accounts = await web3.eth.getAccounts();
+//   await votingInstance.vote(0, { from: accounts[0] });
+//   return votingInstance
+// }
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -77,16 +77,16 @@ app.use(function(err, req, res, next) {
 // }
 
 //chat-gpt alternative for above code - works
-const web3Provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
-const web3 = new Web3(web3Provider);
+// const web3Provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545");
+// const web3 = new Web3(web3Provider);
 
 
 //below 5 lines from https://github.com/trufflesuite/truffle/tree/master/packages/contract
-const contractArtifact = require("./build/contracts/Voting.json"); //produced by Truffle compile
-const contract = require("@truffle/contract");
-const MyContract = contract(contractArtifact);
-MyContract.setProvider(web3Provider);
-const voting = getContract(MyContract)
+// const contractArtifact = require("./build/contracts/Voting.json"); //produced by Truffle compile
+// const contract = require("@truffle/contract");
+// const MyContract = contract(contractArtifact);
+// MyContract.setProvider(web3Provider);
+// const voting = getContract(MyContract)
 // vote(voting, getAccounts())
 
 
@@ -98,6 +98,6 @@ const voting = getContract(MyContract)
 
 module.exports = {
   app: app,
-  MyContract: MyContract,
-  web3: web3
+  // MyContract: MyContract,
+  // web3: web3
 };
