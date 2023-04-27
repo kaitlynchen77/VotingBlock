@@ -1,6 +1,6 @@
-console.log(window.web3)
 let web3Provider;
-  // Is there an injected web3 instance?
+let voting;
+// Is there an injected web3 instance?
 if (typeof web3 !== 'undefined') {
   web3Provider = window.web3.currentProvider;
   web3 = new Web3(window.web3.currentProvider);
@@ -10,19 +10,37 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3Provider);
 }
 
-import contractArtifact from "/voting.json" assert { type: 'json'}; //produced by Truffle compile
-const MyContract = TruffleContract(contractArtifact);
-MyContract.setProvider(web3Provider);
-const voting = getContract(MyContract)
+// importing compiled contract
+let contractArtifact;
+fetch('/voting.json')
+  .then(response => response.json())
+  .then(contractArtifact => {
+    const MyContract = TruffleContract(contractArtifact);
+    MyContract.setProvider(web3Provider);
+    getContract(MyContract)
+    .then(contract => voting=contract)
+  })
+  .catch(error => console.error(error));
 
 async function getContract(MyContract) {
-  const votingInstance = await MyContract.deployed();
+  let votingInstance = await MyContract.deployed();
   return votingInstance
 }
 
-export async function vote() {
-  console.log('in vote() function')
+async function vote() {
+  let id;
+  const candidates = document.getElementsByName('candidate')
+  // Checks to see which if any candidate has been selected
+  for (let i=0; i<candidates.length; i++) {
+    if (candidates[i].checked) {
+      id=candidates[i].value;
+      break;
+    }
+  }
   const accounts = await web3.eth.getAccounts();
-  await voting.vote(0, { from: accounts[0] });
-  window.location.reload()
+  // Votes for candidate if one has been selected 
+  if (id) {
+    await voting.vote(0, { from: accounts[0] });
+    window.location.reload()
+  }
 }
