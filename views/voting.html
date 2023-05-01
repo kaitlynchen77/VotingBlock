@@ -13,18 +13,12 @@
   <script type="text/javascript"
     src="https://cdn.jsdelivr.net/npm/truffle-contract@4.0.31/dist/truffle-contract.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7/web3.min.js"></script>
-  <script src="javascript/voting.js" type="module"></script>
-  <script type="module">
-    import { vote } from '/javascript/voting.js';
-
-    // Call the function
-    vote();
-  </script>
+  <script src="javascript/voting.js"></script>
   <title>Voting</title>
 </head>
 
 <body>
-  <form onsubmit="vote(event); return false;">
+  <form onsubmit="vote(); return false;">
     <div>
       <label>
         <input type="radio" id="sanders" name="candidate" value="0" />

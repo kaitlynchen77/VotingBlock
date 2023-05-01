@@ -1,4 +1,6 @@
 pragma solidity ^0.8.0;
+import "@openzeppelin/contracts/utils/Strings.sol";
+
 
 /*This code was taken from chat-gpt and then altered.
 */
@@ -64,6 +66,14 @@ function createCandidates(string[] memory candidateNames) public {
     }
     */
 
-    
-    
+    function createElection() public{
+        
+    }
+
+    // function getCount() public{
+    //     string memory response = '';
+    //     for (uint i=0; i<candidates.length; i++) {
+    //         response = string.concat(response, Strings.toString(candidates[0].voteCount));
+    //     }
+    // }
 }
