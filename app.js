@@ -23,6 +23,7 @@ nunjucks.configure('views', {
 const indexRouter = require('./routes/index');
 const votingRouter = require('./routes/voting');
 const initiateRouter = require('./routes/initiate');
+const homeRouter = require('./routes/home');
 const testRouter = require('./routes/test');
 
 
@@ -42,6 +43,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/', indexRouter);
 app.use('/voting', votingRouter)
 app.use('/initiate', initiateRouter)
+app.use('/home', homeRouter)
 app.use('/test', testRouter)
 
 

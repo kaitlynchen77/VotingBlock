@@ -10,7 +10,7 @@ if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3Provider);
 }
 
-import contractArtifact from "/voting.json" assert { type: 'json'}; //produced by Truffle compile
+import contractArtifact from "/build/Voting.json" assert { type: 'json'}; //produced by Truffle compile
 const MyContract = TruffleContract(contractArtifact);
 MyContract.setProvider(web3Provider);
 const voting = getContract(MyContract)

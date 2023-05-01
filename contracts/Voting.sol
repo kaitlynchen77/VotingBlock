@@ -62,9 +62,6 @@ function createCandidates(string[] memory candidateNames) public {
         // Return the name and vote count for the candidate
         return (candidates[candidateIndex].name, candidates[candidateIndex].voteCount);
     }
-    function addCandidate(Candidate[] memory candidates, string memory _name, uint index) public {
-        candidates[index]=Candidate(_name, 0);
-    }
     */
 
     
