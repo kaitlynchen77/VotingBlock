@@ -25,26 +25,34 @@ struct Group {
 }
 
 // Array of candidates
-Group public main_group;
-Election public main_election;
+Group[] public groups;
 
 // Constructor to initialize the candidates
 constructor() {
+    createGroup('main');
     string[] memory _candidateNames = new string[](2);
     _candidateNames[0] = "Candidate 1";
     _candidateNames[1] = "Candidate 2";
-    main_election.election_title="test election";
-    createCandidates(_candidateNames);
-    main_group.group_title="test group";
-    main_group.elections.push(main_election);
-    main_group.members.push(0x882e9dCbe8e2EF7f521934F9E6CE21A9c9f9b4FE);
+    createElection(0, '2016 dem primary', _candidateNames);
 }
 
-function createCandidates(string[] memory candidateNames) public {
-    for(uint i = 0; i < candidateNames.length; i++) {
-        main_election.candidates.push(Candidate(candidateNames[i], 0));
-    }
+function createGroup(string memory name) public {
+    Group memory newGroup = Group(name, new Election[](0), new address[](0));
+    groups.push(newGroup);
 }
+
+function createElection(uint groupID, string memory name, string[] memory candidateNames) public {
+    Candidate[] memory candidates = new Candidate[](candidateNames.length);
+    for (uint i = 0; i < candidateNames.length; i++) {
+        candidates[i] = Candidate(candidateNames[i], 0);
+    }
+    groups[groupID].elections.push(Election(name, candidates));
+}
+// function createCandidates(string[] memory candidateNames) public {
+//     for(uint i = 0; i < candidateNames.length; i++) {
+//         main_election.candidates.push(Candidate(candidateNames[i], 0));
+//     }
+// }
 
 
 // Function to vote for a candidate
