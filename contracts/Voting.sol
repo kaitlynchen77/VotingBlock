@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 */
 contract Voting {
     
-    // Candidate struct
+// Candidate struct
 struct Candidate {
     string name;
     uint voteCount;
@@ -46,37 +46,48 @@ function createCandidates(string[] memory candidateNames) public {
     }
 }
 
-/*
-    // Function to vote for a candidate
-    function vote(uint candidateIndex, Candidate[] memory candidates) public {
-        // Check if candidate index is valid
-        require(candidateIndex >= 0 && candidateIndex < candidates.length, "Invalid candidate index");
 
-        // Increment the vote count for the candidate
-        candidates[candidateIndex].voteCount++;
+// Function to vote for a candidate
+function vote(uint candidateIndex, Election memory election) public {
+    // Check if candidate index is valid
+    require(candidateIndex >= 0 && candidateIndex < election.candidates.length, "Invalid candidate index");
+
+    // Increment the vote count for the candidate
+    election.candidates[candidateIndex].voteCount++;
+}
+
+// Function to get the name and vote count for a candidate
+function getCandidate(uint candidateIndex, Candidate[] memory candidates) public view returns (string memory, uint) {
+    // Check if candidate index is valid
+    require(candidateIndex >= 0 && candidateIndex < candidates.length, "Invalid candidate index");
+
+    // Return the name and vote count for the candidate
+    return (candidates[candidateIndex].name, candidates[candidateIndex].voteCount);
+}
+function addCandidate(Candidate[] memory candidates, string memory _name, uint index) public {
+    candidates[index]=Candidate(_name, 0);
+}
+
+
+// function createElection() public{
+    
+// }
+
+//Function from chatGPT
+function getCount(Candidate[] memory candidates) public view returns (string memory) {
+    string memory result;
+
+    for (uint i = 0; i < candidates.length; i++) {
+        // Concatenate the name and vote count of the candidate to the result string
+        result = string(abi.encodePacked(result, candidates[i].name, ": ", Strings.toString(candidates[i].voteCount)));
+
+        // Add a comma and space if this is not the last candidate in the list
+        if (i != candidates.length - 1) {
+            result = string(abi.encodePacked(result, ", "));
+        }
     }
 
-    // Function to get the name and vote count for a candidate
-    function getCandidate(uint candidateIndex, Candidate[] memory candidates) public view returns (string memory, uint) {
-        // Check if candidate index is valid
-        require(candidateIndex >= 0 && candidateIndex < candidates.length, "Invalid candidate index");
+    return result;
+}
 
-        // Return the name and vote count for the candidate
-        return (candidates[candidateIndex].name, candidates[candidateIndex].voteCount);
-    }
-    function addCandidate(Candidate[] memory candidates, string memory _name, uint index) public {
-        candidates[index]=Candidate(_name, 0);
-    }
-    */
-
-    function createElection() public{
-        
-    }
-
-    // function getCount() public{
-    //     string memory response = '';
-    //     for (uint i=0; i<candidates.length; i++) {
-    //         response = string.concat(response, Strings.toString(candidates[0].voteCount));
-    //     }
-    // }
 }

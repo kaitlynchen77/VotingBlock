@@ -1,5 +1,6 @@
 let web3Provider;
 let voting;
+// getVoteCount()
 // Is there an injected web3 instance?
 if (typeof web3 !== 'undefined') {
   web3Provider = window.web3.currentProvider;
@@ -24,7 +25,7 @@ fetch('/voting.json')
 
 async function getContract(MyContract) {
   let votingInstance = await MyContract.deployed();
-  return votingInstance
+  return votingInstance;
 }
 
 async function vote() {
@@ -39,8 +40,16 @@ async function vote() {
   }
   const accounts = await web3.eth.getAccounts();
   // Votes for candidate if one has been selected 
+
   if (id) {
-    await voting.vote(0, { from: accounts[0] });
-    window.location.reload()
+    const election = await voting.main_election;
+    console.log(election)
+    await voting.vote(id, election, { from: accounts[0] });
+    window.location.reload();
   }
+}
+
+async function getVoteCount() {
+  const count = await voting.getCount(voting.main_election.candidates);
+  console.log(count);
 }
