@@ -56,7 +56,24 @@ function vote(uint candidateIndex, Election memory election) public {
     election.candidates[candidateIndex].voteCount++;
 }
 
-// Function to get the name and vote count for a candidate
+//Function from chatGPT
+// function getCount(Candidate[] memory candidates) public view returns (string memory) {
+//     string memory result;
+
+//     for (uint i = 0; i < candidates.length; i++) {
+//         // Concatenate the name and vote count of the candidate to the result string
+//         result = string(abi.encodePacked(result, candidates[i].name, ": ", Strings.toString(candidates[i].voteCount)));
+
+//         // Add a comma and space if this is not the last candidate in the list
+//         if (i != candidates.length - 1) {
+//             result = string(abi.encodePacked(result, ", "));
+//         }
+//     }
+
+//     return result;
+// }
+
+    // Function to get the name and vote count for a candidate
 function getCandidate(uint candidateIndex, Candidate[] memory candidates) public view returns (string memory, uint) {
     // Check if candidate index is valid
     require(candidateIndex >= 0 && candidateIndex < candidates.length, "Invalid candidate index");
@@ -64,30 +81,8 @@ function getCandidate(uint candidateIndex, Candidate[] memory candidates) public
     // Return the name and vote count for the candidate
     return (candidates[candidateIndex].name, candidates[candidateIndex].voteCount);
 }
-function addCandidate(Candidate[] memory candidates, string memory _name, uint index) public {
-    candidates[index]=Candidate(_name, 0);
-}
 
-
-// function createElection() public{
+function createElection() public{
     
-// }
-
-//Function from chatGPT
-function getCount(Candidate[] memory candidates) public view returns (string memory) {
-    string memory result;
-
-    for (uint i = 0; i < candidates.length; i++) {
-        // Concatenate the name and vote count of the candidate to the result string
-        result = string(abi.encodePacked(result, candidates[i].name, ": ", Strings.toString(candidates[i].voteCount)));
-
-        // Add a comma and space if this is not the last candidate in the list
-        if (i != candidates.length - 1) {
-            result = string(abi.encodePacked(result, ", "));
-        }
-    }
-
-    return result;
 }
-
 }
