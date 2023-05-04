@@ -1,39 +1,26 @@
-// Source code to interact with smart contract
-var fs = require('fs');
-var jsonFile = "/build/Voting.json"; 
-var parsed= JSON.parse(fs.readFileSync(jsonFile));
-var abi = parsed.abi;
-var contract= new web3.eth.Contract(abi, 0x12345678912345678912345678912345678912); //replace with my own address
+
+var contract;
+var abi;
+window.onload=displayElections();
+async function displayElections() {
   
-  // Accounts
-  var account;
-  
-  web3.eth.getAccounts(function(err, accounts) {
-    if (err != null) {
-      alert("Error retrieving accounts.");
-      return;
-    }
-    if (accounts.length == 0) {
-      alert("No account found! Make sure the Ethereum client is configured properly.");
-      return;
-    }
-    account = accounts[0];
-    console.log('Account: ' + account);
-    web3.eth.defaultAccount = account;
-  });
-  
-  //Smart contract functions
-  function registerSetInfo() {
-    info = $("#newInfo").val();
-    contract.methods.setInfo (info).send( {from: account}).then( function(tx) {
-      console.log("Transaction: ", tx);
-    });
-    $("#newInfo").val('');
+ // voting = await this.importContract();
+ web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+ await fetch('./Voting.json')
+    .then(response => response.json()) // parse the response as JSON
+    .then(data => {
+        abi = data.abi; 
+    })
+    .catch(err => console.error(err));
+  contract=await new web3.eth.Contract(abi, "0x01699D475c718eD4C7077C98516f266A864743A5");
+  var elections=await contract.methods.getElections().call();
+  let candidatesArray=elections[0][1];
+  console.log(candidatesArray);
+  let yourElections=document.getElementById('yourElections');
+  for (let i = 0; i < candidatesArray.length; i++) {
+    yourElections.innerHTML+="<br> name:" + candidatesArray[i][0];
+    yourElections.innerHTML+="<br> vote count:" + candidatesArray[i][1];
   }
-  
-  function registerGetInfo() {
-    contract.methods.getInfo().call().then( function( info ) {
-      console.log("info: ", info);
-      document.getElementById('lastInfo').innerHTML = info;
-    });
-  }
+}
+
+
