@@ -7,7 +7,8 @@
     "watch": "nodemon"
   },
   "dependencies": {
-    "@truffle/contract": "^4.6.20",
+    "@openzeppelin/contracts": "^4.8.3",
+    "@truffle/contract": "^4.6.18",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "ejs": "^3.1.9",
