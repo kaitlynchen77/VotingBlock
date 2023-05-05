@@ -18,44 +18,41 @@ contract Voting {
 
     struct Group {
         string groupTitle;
-        Election[10] elections; // fixed-size array of elections
+        Election[] elections;
         address[] members; // Array of member addresses
     }
 
-    // Array of candidates
+    // Array of groups
     Group[] public groups;
 
     // Constructor to initialize the candidates
     constructor() {
         createGroup('main');
         createElection(0, '2016 dem primary');
-        createCandidate(0, 'Candidate 1');
-        createCandidate(0, 'Candidate 2');
+        createCandidate(0, 0, 'Candidate 1');
+        createCandidate(0, 0,'Candidate 2');
     }
 
     function createGroup(string memory name) public {
-        Group memory newGroup = Group(name, new Election[](0), new address[](0));
-        groups.push(newGroup);
+        groups.push(Group(name, new Election[](0), new address[](0)));
     }
 
     function createElection(uint groupID, string memory name) public {
-        Election[] storage elections = groups[groupID].elections;
-        elections.push(Election(name, new Candidate[](0)));
+        groups[groupID].elections.push(Election(name, new Candidate[](0)));
     }
 
-    function createCandidate(uint groupID, string memory name) public {
-        Candidate[] storage candidates = groups[groupID].elections[groups[groupID].elections.length - 1].candidates;
-        candidates.push(Candidate(name, 0));
+    function createCandidate(uint groupID, uint electionID, string memory name) public {
+        groups[groupID].elections[electionID].candidates.push(Candidate(name, 0));
     }
 
     // Function to vote for a candidate
     function vote(uint groupID, uint electionIndex, uint candidateIndex) public {
-        Election storage election = groups[groupID].elections[electionIndex];
+        // Election storage election = groups[groupID].elections[electionIndex];
         // Check if candidate index is valid
-        require(candidateIndex >= 0 && candidateIndex < election.candidates.length, "Invalid candidate index");
+        require(candidateIndex >= 0 && candidateIndex < groups[groupID].elections[electionIndex].candidates.length, "Invalid candidate index");
 
         // Increment the vote count for the candidate
-        election.candidates[candidateIndex].voteCount++;
+        groups[groupID].elections[electionIndex].candidates[candidateIndex].voteCount++;
     }
 
     // Function to get the name and vote count for a candidate

@@ -1,7 +1,6 @@
 # Lakeside CS 5: Blockchain Voting Project
 
-
-To start server run `nodemon app.js` in project directory
+To start server run `npm run watch` in project directory
 
 ## Potential Issues When Running
 
@@ -11,5 +10,4 @@ To start server run `nodemon app.js` in project directory
 
 - run `ganache` from the terminal or open the Ganache GUI app to start a virtual chain
 - when deploying contract, be sure to select correct port depending on whether you are using GUI or CLI
-- to test functions, use truffle console. If using CLI, run `truffle console` from terminal
-- if using GUI, run `truffle console --network GUIdevelopment`
+- most functions default to using Ganache GUI and port 7545
