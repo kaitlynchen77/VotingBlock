@@ -17,7 +17,7 @@ async function connectContract() {
 async function displayElections() {
  // voting = await this.importContract();
   await connectContract();
-  var groups=await contract.methods.getGroups().call();
+  let groups=await contract.methods.getGroups().call();
   let yourGroups=document.getElementById('yourGroups')
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
     let group = groups[i];
