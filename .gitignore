@@ -1,9 +1,11 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# compiled contract
+# compiled contracts
 Voting.json
 Math.json
 Strings.json
+public/*.json
+
 
 # compiled output
 /dist
@@ -69,6 +71,7 @@ jspm_packages/
 
 # Playground
 playground/
+
 
 # Optional npm cache directory
 .npm
