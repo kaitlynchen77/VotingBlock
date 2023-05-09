@@ -27,6 +27,7 @@ async function vote() {
   // Votes for candidate if one has been selected 
   if (id!=null) {
     await contract.methods.vote(0, 0, id).send({from: accounts[0]});
+    window.location.reload();
   }
 }
 /*

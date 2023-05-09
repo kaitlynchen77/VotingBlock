@@ -19,7 +19,8 @@ contract Voting {
     struct Group {
         string groupTitle;
         Election[] elections; // fixed-size array of elections
-        //address[] members; // Array of member addresses
+        address[] members; // Array of member addresses
+        address adminAddress; 
     }
 
     // Array of groups
@@ -29,8 +30,8 @@ contract Voting {
     constructor() {
         createGroup('main');
         createElection(0, '2016 dem primary');
-        createCandidate(0, 0, 'Candidate 1');
-        createCandidate(0, 0,'Candidate 2');
+        createCandidate(0, 'Candidate 1');
+        createCandidate(0, 'Candidate 2');
     }
     // adds a new group to groups[]
     function createGroup(string memory name) public { 
@@ -38,6 +39,7 @@ contract Voting {
         groups.push();
         Group storage newGroup = groups[groups.length - 1];
         newGroup.groupTitle = name;
+        newGroup.adminAddress=msg.sender;// set admin to the address which calls the function
     }
     
     // adds a new election to a specified group in groups[]
