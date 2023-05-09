@@ -29,8 +29,8 @@ contract Voting {
     constructor() {
         createGroup('main');
         createElection(0, '2016 dem primary');
-        createCandidate(0, 0, 'Candidate 1');
-        createCandidate(0, 0,'Candidate 2');
+        createCandidate(0, 'Candidate 1');
+        createCandidate(0, 'Candidate 2');
     }
     // adds a new group to groups[]
     function createGroup(string memory name) public { 
