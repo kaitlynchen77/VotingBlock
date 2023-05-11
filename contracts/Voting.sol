@@ -39,6 +39,7 @@ contract Voting {
         groups.push();
         Group storage newGroup = groups[groups.length - 1];
         newGroup.groupTitle = name;
+        newGroup.members.push(0x8E64AEc8f738DEdB47399B4Bc0B5457a290AE3F4);
         newGroup.adminAddress=msg.sender;// set admin to the address which calls the function
     }
     
@@ -54,7 +55,6 @@ contract Voting {
         Candidate[] storage candidates = groups[groupID].elections[groups[groupID].elections.length - 1].candidates;
         candidates.push(Candidate(name, 0));
     }
-
     function getGroups() public view returns (Group[] memory) {
         return groups;
     }

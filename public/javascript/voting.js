@@ -9,7 +9,7 @@ async function connectContract() {
         abi = data.abi; 
     })
     .catch(err => console.error(err));
-  contract=await new web3.eth.Contract(abi, "0x3E92Fe3b26595E3Cde8Ef0e2Bf6E6955e30e4497"); // change this address every time you recompile/deploy
+  contract=await new web3.eth.Contract(abi, "0xC12E83f168967Da8fe18DD391a3205Ff19c61366"); // change this address every time you recompile/deploy
 }
 
 async function vote() {
@@ -30,6 +30,34 @@ async function vote() {
     window.location.reload();
   }
 }
+ /*
+async function getActiveGroups() {
+  await connectContract(); // incorporate into window.onload
+  let groups=await contract.methods.getGroups().call();
+  const accounts = await web3.eth.getAccounts();
+  for(let i = 0; i < groups.length; i++) {
+    members = groups[i].members;
+    for(let j = 0; j < members.length; j++) {
+      if(members[j]==accounts[0]) {
+        validGroups.push(i);
+        break;
+      }
+    }
+  }
+}
+
+function getActiveGroups(address user) public returns (uint[] memory) {
+        uint[] storage validGroups= ; // groups that the user is a part of
+        for(uint i = 0; i < groups.length; i++) {
+            address[] memory members=groups[i].members;
+            for(uint j = 0; j < members.length; j++) {
+                if(members[j]==user){
+                    validGroups.push();
+                }
+            }
+        }
+    }
+*/
 /*
 async function getVoteCount() {
   const count = await contract.getCount(voting.main_election.candidates);
