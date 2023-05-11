@@ -11,7 +11,7 @@ async function connectContract() {
         abi = data.abi; 
     })
     .catch(err => console.error(err));
-  contract=await new web3.eth.Contract(abi, "0x3d0A114766c4675f8cB5d675561AeF0cb2b71089"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x72DD4cf2D7A324481cFa7f035a7A8d5CFd9a17bB"); // change this address every time you recompile/deploy
 }
 
 async function displayElections() {
