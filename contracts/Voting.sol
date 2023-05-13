@@ -39,7 +39,7 @@ contract Voting {
         groups.push();
         Group storage newGroup = groups[groups.length - 1];
         newGroup.groupTitle = name;
-        newGroup.members.push(0x8E64AEc8f738DEdB47399B4Bc0B5457a290AE3F4);
+        newGroup.members.push(0x0bb5B0bB21FD580aAAc2d31c6B288EB0aa091adc);
         newGroup.adminAddress=msg.sender;// set admin to the address which calls the function
     }
     
