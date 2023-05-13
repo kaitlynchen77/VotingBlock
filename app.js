@@ -25,6 +25,7 @@ const votingRouter = require('./routes/voting');
 const initiateRouter = require('./routes/initiate');
 const homeRouter = require('./routes/home');
 const testRouter = require('./routes/test');
+const groupsRouter = require('./routes/groups')
 
 
 // view engine setup
@@ -45,6 +46,8 @@ app.use('/voting', votingRouter)
 app.use('/initiate', initiateRouter)
 app.use('/home', homeRouter)
 app.use('/test', testRouter)
+app.use('/groups', groupsRouter)
+
 
 
 // module.exports = app;

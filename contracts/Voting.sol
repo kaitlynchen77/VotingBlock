@@ -44,12 +44,20 @@ contract Voting {
     }
     
     // adds a new election to a specified group in groups[]
-    function createElection(uint groupID, string memory name) public { 
+    // function createElection(uint groupID, string memory name) public { 
+    //     Election[] storage elections = groups[groupID].elections;
+    //     elections.push();
+    //     Election storage newElection = elections[elections.length-1];
+    //     newElection.electionTitle=name;
+    // }
+
+   function createElection(uint groupID, string memory name) public { 
+        require(msg.sender == groups[groupID].adminAddress);
         Election[] storage elections = groups[groupID].elections;
         elections.push();
         Election storage newElection = elections[elections.length-1];
         newElection.electionTitle=name;
-    }
+    }    
     // adds a new candidate to the last election in a specified group
     function createCandidate(uint groupID, string memory name) public {
         Candidate[] storage candidates = groups[groupID].elections[groups[groupID].elections.length - 1].candidates;
