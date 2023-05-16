@@ -31,22 +31,6 @@ async function vote() {
   }
 }
 
- /*
-async function getActiveGroups() {
-  await connectContract(); // incorporate into window.onload
-  let groups=await contract.methods.getGroups().call();
-  const accounts = await web3.eth.getAccounts();
-  for(let i = 0; i < groups.length; i++) {
-    members = groups[i].members;
-    for(let j = 0; j < members.length; j++) {
-      if(members[j]==accounts[0]) {
-        validGroups.push(i);
-        break;
-      }
-    }
-  }
-}
-*/
 /*
 async function getVoteCount() {
   const count = await contract.getCount(voting.main_election.candidates);

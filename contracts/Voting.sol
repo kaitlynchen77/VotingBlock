@@ -39,8 +39,8 @@ contract Voting {
         groups.push();
         Group storage newGroup = groups[groups.length - 1];
         newGroup.groupTitle = name;
-        newGroup.members.push(0x0bb5B0bB21FD580aAAc2d31c6B288EB0aa091adc);
         newGroup.adminAddress=msg.sender;// set admin to the address which calls the function
+        newGroup.members.push(newGroup.adminAddress);
     }
     
     // adds a new election to a specified group in groups[]
@@ -86,5 +86,9 @@ contract Voting {
         // Return the name and vote count for the candidate
         return (election.candidates[candidateIndex].name, election.candidates[candidateIndex].voteCount);
     }
-
+    /*
+    function endElection (uint groupID, uint electionIndex) public {
+        
+    }
+    */
 }
