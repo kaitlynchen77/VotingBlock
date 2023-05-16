@@ -87,6 +87,40 @@ contract Voting {
         // Return the name and vote count for the candidate
         return (election.candidates[candidateIndex].name, election.candidates[candidateIndex].voteCount);
     }
+
+
+    /**
+    This function adds a member to a group
+    @param groupID {uint} - ID of the group
+    @param member_address {address} - the address of the user to be added
+    @return {bool} - whether the function was succesful or not
+     */
+    function addMember(uint groupID, address member_address) public returns (bool){
+        require(groupID >= 0, "Invalid groupID");
+        require(member_address != address(0),"Invalid member_address");
+        Group storage m_group = groups[groupID];
+        m_group.members.push(member_address);
+        return true;
+    }
+
+    /**
+    This function removes a member from a group
+    @param groupID {uint} - ID of the group
+    @param member_address {address} - the address of the user to be added
+    @return {bool} - whether the function was succesful or not
+     */
+    function removeMember(uint groupID, address member_address) public returns (bool){
+        require(groupID >= 0, "Invalid groupID");
+        require(member_address != address(0),"Invalid member_address");
+        Group storage m_group = groups[groupID];
+        for (uint256 i = 0; i < m_group.members.length; i++) {
+            if(m_group.members[i] == member_address){ // this address is the one to remove
+                delete m_group.members[i];
+            }
+        }
+        return true;
+    }
+
     function endElection (uint groupID, uint electionIndex) public {
         Election[] storage elections = groups[groupID].elections;
         Election[] storage completed = groups[groupID].completed;
