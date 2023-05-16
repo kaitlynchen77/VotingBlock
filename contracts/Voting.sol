@@ -19,6 +19,7 @@ contract Voting {
     struct Group {
         string groupTitle;
         Election[] elections; // fixed-size array of elections
+        Election[] completed;
         address[] members; // Array of member addresses
         address adminAddress; 
     }
@@ -137,9 +138,13 @@ contract Voting {
         return task_accomplished;
     }
 
-    /*
     function endElection (uint groupID, uint electionIndex) public {
-        
+        Election[] storage elections = groups[groupID].elections;
+        Election[] storage completed = groups[groupID].completed;
+        completed.push(elections[electionIndex]);
+        for(uint i = electionIndex; i < elections.length-1; i++) {
+            elections[i]=elections[i+1];
+        }
+        elections.pop();
     }
-    */
 }
