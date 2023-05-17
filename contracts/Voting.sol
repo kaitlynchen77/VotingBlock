@@ -14,14 +14,15 @@ contract Voting {
     struct Election {
         string electionTitle;
         Candidate[] candidates;
+        address[] voted;  // members addresses for those who have already voted
     }
 
     struct Group {
         string groupTitle;
-        Election[] elections; // fixed-size array of elections
-        Election[] completed;
+        Election[] elections; // active elections
+        Election[] completed; // completed elections
         address[] members; // Array of member addresses
-        address adminAddress; 
+        address adminAddress;
     }
 
     // Array of groups
@@ -70,12 +71,30 @@ contract Voting {
 
     // Function to vote for a candidate
     function vote(uint groupID, uint electionIndex, uint candidateIndex) public {
-        // Election storage election = groups[groupID].elections[electionIndex];
-        // Check if candidate index is valid
-        require(candidateIndex >= 0 && candidateIndex < groups[groupID].elections[electionIndex].candidates.length, "Invalid candidate index");
-
-        // Increment the vote count for the candidate
-        groups[groupID].elections[electionIndex].candidates[candidateIndex].voteCount++;
+        Election storage election = groups[groupID].elections[electionIndex];
+        address[] storage members = groups[groupID].members;
+        uint i = 0;
+        for(; i < members.length; i++) { // checks if user is a member of the group
+            if(members[i]==msg.sender) { 
+                break;
+            }
+        }
+        if(i < members.length) {
+            i = 0;
+            for(; i < election.voted.length; i++) { // checks if user has already voted
+                if(election.voted[i]==msg.sender) { 
+                    break;
+                }
+            }
+            if(i==election.voted.length) {
+                // Check if candidate index is valid
+                require(candidateIndex >= 0 && candidateIndex < election.candidates.length, "Invalid candidate index");
+                // Increment the vote count for the candidate
+                election.candidates[candidateIndex].voteCount++;
+                election.voted.push(msg.sender);
+            }
+        }
+        
     }
 
     // Function to get the name and vote count for a candidate
@@ -123,8 +142,7 @@ contract Voting {
 
     function endElection (uint groupID, uint electionIndex) public {
         Election[] storage elections = groups[groupID].elections;
-        Election[] storage completed = groups[groupID].completed;
-        completed.push(elections[electionIndex]);
+        groups[groupID].completed.push(elections[electionIndex]);
         for(uint i = electionIndex; i < elections.length-1; i++) {
             elections[i]=elections[i+1];
         }
