@@ -69,6 +69,10 @@ contract Voting {
         return groups;
     }
 
+    function getElections(uint groupID) public view returns(Election[] memory) {
+        return groups[groupID].elections;
+    }
+
     // Function to vote for a candidate
     function vote(uint groupID, uint electionIndex, uint candidateIndex) public {
         Election storage election = groups[groupID].elections[electionIndex];
@@ -117,9 +121,19 @@ contract Voting {
     function addMember(uint groupID, address member_address) public returns (bool){
         require(groupID >= 0, "Invalid groupID");
         require(member_address != address(0),"Invalid member_address");
+
         Group storage m_group = groups[groupID];
+        bool task_accomplished = false;
+        uint init_length = m_group.members.length; // initial length of group members
+
         m_group.members.push(member_address);
-        return true;
+
+        if(init_length++ == m_group.members.length){
+            task_accomplished = true;
+            return task_accomplished;
+        }else{
+            revert("Error -- AddMember() did not succesfully run. member_address was not added to group members array");
+        }
     }
 
     /**
@@ -132,12 +146,19 @@ contract Voting {
         require(groupID >= 0, "Invalid groupID");
         require(member_address != address(0),"Invalid member_address");
         Group storage m_group = groups[groupID];
+        bool task_accomplished = false;
+
         for (uint256 i = 0; i < m_group.members.length; i++) {
             if(m_group.members[i] == member_address){ // this address is the one to remove
                 delete m_group.members[i];
+                task_accomplished = true;
             }
         }
-        return true;
+
+        if(task_accomplished == false){
+            revert("Error -- removeMember() did not succesfully run. member_address was not removed from group members array");
+        }
+        return task_accomplished;
     }
 
     function endElection (uint groupID, uint electionIndex) public {
