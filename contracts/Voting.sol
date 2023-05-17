@@ -111,54 +111,38 @@ contract Voting {
         return (election.candidates[candidateIndex].name, election.candidates[candidateIndex].voteCount);
     }
 
-
-    /**
-    This function adds a member to a group
-    @param groupID {uint} - ID of the group
-    @param member_address {address} - the address of the user to be added
-    @return {bool} - whether the function was succesful or not
-     */
-    function addMember(uint groupID, address member_address) public returns (bool){
+    function addMember(uint groupID, address member_address) public{
         require(groupID >= 0, "Invalid groupID");
         require(member_address != address(0),"Invalid member_address");
 
         Group storage m_group = groups[groupID];
-        bool task_accomplished = false;
         uint init_length = m_group.members.length; // initial length of group members
 
         m_group.members.push(member_address);
 
-        if(init_length++ == m_group.members.length){
-            task_accomplished = true;
-            return task_accomplished;
-        }else{
+        if(init_length++ != m_group.members.length){
             revert("Error -- AddMember() did not succesfully run. member_address was not added to group members array");
         }
     }
 
-    /**
-    This function removes a member from a group
-    @param groupID {uint} - ID of the group
-    @param member_address {address} - the address of the user to be added
-    @return {bool} - whether the function was succesful or not
-     */
-    function removeMember(uint groupID, address member_address) public returns (bool){
+    function removeMember(uint groupID, address member_address) public {
         require(groupID >= 0, "Invalid groupID");
         require(member_address != address(0),"Invalid member_address");
         Group storage m_group = groups[groupID];
-        bool task_accomplished = false;
-
-        for (uint256 i = 0; i < m_group.members.length; i++) {
+        uint i = 0;
+        for (; i < m_group.members.length; i++) {
             if(m_group.members[i] == member_address){ // this address is the one to remove
-                delete m_group.members[i];
-                task_accomplished = true;
+                for(uint j = i; j < m_group.members.length-1; j++) {
+                    m_group.members[j]=m_group.members[j+1];
+                }
+                m_group.members.pop();
+                break;
             }
         }
 
-        if(task_accomplished == false){
+        if(i == m_group.members.length){
             revert("Error -- removeMember() did not succesfully run. member_address was not removed from group members array");
         }
-        return task_accomplished;
     }
 
     function endElection (uint groupID, uint electionIndex) public {
