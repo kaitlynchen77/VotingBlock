@@ -2,17 +2,20 @@ var contract;
 var abi;
 let accounts;
 let groups;
-const activeGroups = [];
+const activeGroups = [];// list of valid indices in groups
 window.onload = initialize();
 
 
 async function initialize() {
   await connectContract();
   accounts = await web3.eth.getAccounts();
-  console.log(accounts[0]);
   groups = await contract.methods.getGroups().call();
   await getActiveGroups();
   await renderBallots();
+  const electionList=document.getElementById("electionList");
+  electionList.innerHTML="<option id="+">Hello</option>";
+
+  //= electionList.options[electionList.selectedIndex].text;  
 }
 async function connectContract() {
   web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
@@ -22,7 +25,7 @@ async function connectContract() {
       abi = data.abi;
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0x3b20E93EF1762Bc3AB8CAAa437Dc42f8c6963b43"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x5E96B53f5F2F9B6224644d09641E63c88fC398cC"); // change this address every time you recompile/deploy
 }
 function getActiveGroups() {
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
@@ -36,9 +39,12 @@ function getActiveGroups() {
     }
   }
 }
-
-async function vote(group, election) {
-  await connectContract();
+function listElections() {//change name?
+  for(let i = 0; i < activeGroups.length; i++) {
+    
+  }
+}
+async function vote(group, election) { // group, election are numbers
   let id;
   const candidates = document.getElementsByName('candidates' + group + ',' + election)
   console.log('candidates' + group + election)
