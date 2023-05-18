@@ -2,20 +2,31 @@ var contract;
 var abi;
 let accounts;
 let groups;
+let web3Provider;
 const activeGroups = [];
+
+// Is there an injected web3 instance?
+if (typeof web3 !== 'undefined') {
+  web3Provider = window.web3.currentProvider;
+  web3 = new Web3(window.web3.currentProvider);
+} else {
+  console.log('metamask not injected')
+  // If no injected web3 instance is detected, fallback to Ganache.
+  web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
+  web3 = new Web3(web3Provider);
+}
+
 window.onload = initialize();
 
 
 async function initialize() {
   await connectContract();
   accounts = await web3.eth.getAccounts();
-  console.log(accounts[0]);
   groups = await contract.methods.getGroups().call();
   await getActiveGroups();
   await renderBallots();
 }
 async function connectContract() {
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
   await fetch('./Voting.json')
     .then(response => response.json()) // parse the response as JSON
     .then(data => {
@@ -41,7 +52,6 @@ async function vote(group, election) {
   await connectContract();
   let id;
   const candidates = document.getElementsByName('candidates' + group + ',' + election)
-  console.log('candidates' + group + election)
   // Checks to see which if any candidate has been selected
   for (let i = 0; i < candidates.length; i++) {
     if (candidates[i].checked) {
@@ -59,7 +69,6 @@ async function vote(group, election) {
 
 function renderBallots() {
   const ballots = document.querySelector("#ballots");
-  let candID;
   //iterate through groups (vertically spaced)
   for (let i = 0; i < activeGroups.length; i++) {
     //iterate through elections (horizontally spaced)
@@ -84,9 +93,3 @@ function renderBallots() {
     }
   }
 }
-/*
-async function getVoteCount() {
-  const count = await contract.getCount(voting.main_election.candidates);
-  console.log(count);
-}
-*/
