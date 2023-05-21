@@ -5,30 +5,28 @@ let groups;
 let web3Provider;
 const activeGroups = [];
 
-// Is there an injected web3 instance?
-if (typeof web3 !== 'undefined') {
-  web3Provider = window.web3.currentProvider;
-  web3 = new Web3(window.web3.currentProvider);
-} else {
-  console.log('metamask not injected')
-  // If no injected web3 instance is detected, fallback to Ganache.
-  web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
-  web3 = new Web3(web3Provider);
-}
 
 window.onload = initialize();
 
 
 async function initialize() {
+  
+  // Is there an injected web3 instance?
+  if (typeof web3 !== 'undefined') {
+    console.log(typeof web3);
+    web3Provider = window.web3.currentProvider;
+    web3 = new Web3(window.web3.currentProvider);
+  } else {
+    console.log('metamask not injected')
+    // If no injected web3 instance is detected, fallback to Ganache.
+    web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
+    web3 = new Web3(web3Provider);
+  } 
   await connectContract();
   accounts = await web3.eth.getAccounts();
   groups = await contract.methods.getGroups().call();
   await getActiveGroups();
   await renderBallots();
-  const electionList=document.getElementById("electionList");
-  electionList.innerHTML="<option id="+">Hello</option>";
-
-  //= electionList.options[electionList.selectedIndex].text;  
 }
 async function connectContract() {
   await fetch('./Voting.json')
@@ -37,7 +35,7 @@ async function connectContract() {
       abi = data.abi;
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0x5E96B53f5F2F9B6224644d09641E63c88fC398cC"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0xc89f783126C47ebf13167ebD3EFFc3F5A14BA9fC"); // change this address every time you recompile/deploy
 }
 function getActiveGroups() {
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
@@ -49,11 +47,6 @@ function getActiveGroups() {
         break;
       }
     }
-  }
-}
-function listElections() {//change name?
-  for(let i = 0; i < activeGroups.length; i++) {
-    
   }
 }
 async function vote(group, election) { // group, election are numbers
@@ -80,23 +73,32 @@ function renderBallots() {
   for (let i = 0; i < activeGroups.length; i++) {
     //iterate through elections (horizontally spaced)
     for (let j = 0; j < groups[activeGroups[i]].elections.length; j++) {
-      ballots.innerHTML += "<div id='group" + activeGroups[i] + "election" + j + "'>  </div>";
-      const ballot = document.querySelector('#group' + activeGroups[i] + 'election' + j);
-      //iterate through candidates
-      for (let k = 0; k < groups[activeGroups[i]].elections[j].candidates.length; k++) {
-        ballot.innerHTML += `
-  <div>
-    <label>
-      <input type="radio" name="candidates${activeGroups[i]},${j}" value="${k}" />
-      ${groups[activeGroups[i]].elections[j].candidates[k].name}
-    </label>
-  </div>
-`;
+      let voted = groups[activeGroups[i]].elections[j].voted;
+      let k = 0;
+      for(; k < voted.length; k++) { //only displays elections that user has not voted in
+        if(voted[k]==accounts[0]) {
+          break;
+        }
       }
-      ballot.innerHTML += `
-    <div>
-      <button onclick="vote(${activeGroups[i]},${j});">VOTE</button>
-    </div>`
+      if(k==voted.length) {
+        ballots.innerHTML += "<div id='group" + activeGroups[i] + "election" + j + "'>  </div>";
+        const ballot = document.querySelector('#group' + activeGroups[i] + 'election' + j);
+        //iterate through candidates
+        for (let k = 0; k < groups[activeGroups[i]].elections[j].candidates.length; k++) {
+          ballot.innerHTML += `
+          <div>
+            <label>
+              <input type="radio" name="candidates${activeGroups[i]},${j}" value="${k}" />
+              ${groups[activeGroups[i]].elections[j].candidates[k].name}
+            </label>
+          </div>
+`         ;
+        }
+        ballot.innerHTML += `
+        <div>
+          <button onclick="vote(${activeGroups[i]},${j});">VOTE</button>
+        </div>`
+      }
     }
   }
 }
