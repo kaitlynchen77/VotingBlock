@@ -49,4 +49,18 @@ function groupsDropdown() {
   }
 }
 
-// display all groups that user is the admin of, for each provide add member + remove member + create election + end election functionality
+async function removeMember() {
+  const member_address = document.getElementById('remove-member-address').value
+  const groupID = 0; //change when there are multiple groups
+  const accounts = await web3.eth.getAccounts();
+  await contract.methods.removeMember(groupID, member_address).send({ from: accounts[0] });
+}
+
+async function addMember() {
+  const member_address = document.getElementById('add-member-address').value
+  const groupID = 0; //change when there are multiple groups
+  const accounts = await web3.eth.getAccounts();
+  await contract.methods.addMember(groupID, member_address).send({ from: accounts[0] });
+}
+
+// display all groups that user is the admin of, for each provide add member + remove member + create election functionality
