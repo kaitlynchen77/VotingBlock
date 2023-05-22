@@ -10,7 +10,7 @@ async function initialize() {
   accounts = await web3.eth.getAccounts();
   groups=await contract.methods.getGroups().call();
   await getActiveGroups();
-  console.log(groups);
+  groupsDropdown();
 }
 
 async function connectContract() {
@@ -24,7 +24,7 @@ async function connectContract() {
   contract = await new web3.eth.Contract(abi, "0x5C3a41E1E8BD6e466A036a75f8772da4e04170B7"); // change this address every time you recompile/deploy
 }
 
-function getActiveGroups() {
+function getActiveGroups() { // all groups that the user is the admin of 
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
     if(groups[i].adminAddress==accounts[0]) {
       activeGroups.push(i);
@@ -43,6 +43,12 @@ async function createElection() {
   await contract.methods.createElection(parseInt(groupID), title).send({ from: accounts[0] });
   window.location.reload();
 }
+function groupsDropdown() {
+  dropdownOptions = document.getElementById("dropdownOptions");
+  for(let i = 0; i < activeGroups.length; i++) {
+    dropdownOptions.innerHTML += "<option value=___>"+groups[activeGroups[i]].groupTitle+"</option>";
+  }
+}
 
 async function removeMember() {
   const member_address = document.getElementById('remove-member-address').value
@@ -57,6 +63,5 @@ async function addMember() {
   const accounts = await web3.eth.getAccounts();
   await contract.methods.addMember(groupID, member_address).send({ from: accounts[0] });
 }
-
 
 // display all groups that user is the admin of, for each provide add member + remove member + create election functionality

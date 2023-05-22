@@ -25,6 +25,7 @@ async function initialize() {
   await connectContract();
   accounts = await web3.eth.getAccounts();
   groups = await contract.methods.getGroups().call();
+  console.log(groups);
   await getActiveGroups();
   await renderBallots();
 }
