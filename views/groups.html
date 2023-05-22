@@ -15,9 +15,23 @@
   <title>Groups</title>
 
 <body>
+  <form onsubmit="createGroup(); return false;">
+    <div>
+      Create Group: Input name for group
+    </div>
+    <div>
+      <label>
+        <input type="text" id="group-title" name="title" placeholder="Group Name" />
+      </label>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+
   <form onsubmit="createElection(); return false;">
     <div>
-      Drop down to select group goes here
+      Create Election: Drop down to select group goes here
     </div>
     <div>
       <!-- temporary hardcoding -->

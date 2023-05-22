@@ -21,7 +21,7 @@ async function initialize() {
           abi = data.abi; 
       })
       .catch(err => console.error(err));
-    contract = await new web3.eth.Contract(abi, "0x56b7b4b29179E2C44125F7787A3220B39b9d90ea"); // change this address every time you recompile/deploy
+    contract = await new web3.eth.Contract(abi, "0x5C3a41E1E8BD6e466A036a75f8772da4e04170B7"); // change this address every time you recompile/deploy
   }
 
 
