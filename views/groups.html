@@ -25,14 +25,46 @@
     </div>
     <div>
       <label>
-        <input type="text" id="election-title" name="title" />
-        Election Title
+        <input type="text" id="election-title" name="title" placeholder="Election Title" />
       </label>
     </div>
     <div>
       <input type="submit" />
     </div>
   </form>
+
+
+  <form onsubmit="addMember(); return false;">
+    <div>
+      Add Member: Add a member through their address
+    </div>
+    
+    <div>
+      <label>
+        <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
+      </label>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+
+  <form onsubmit="removeMember(); return false;">
+    <div>
+      Remove Member: Remove a member through their address
+    </div>
+    
+    <div>
+      <label>
+        <input type="text" id="remove-member-address" name="member-address" placeholder="member address" />
+      </label>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+
+
 </body>
 
 </html>

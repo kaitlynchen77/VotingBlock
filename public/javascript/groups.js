@@ -21,7 +21,7 @@ async function connectContract() {
         abi = data.abi; 
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xD17aab14B0cBee37b305b4d87A7c6037DCdC2128"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x56b7b4b29179E2C44125F7787A3220B39b9d90ea"); // change this address every time you recompile/deploy
 }
 
 function getActiveGroups() {
@@ -41,6 +41,20 @@ async function createElection() {
   const accounts = await web3.eth.getAccounts();
   await contract.methods.createElection(parseInt(groupID), title).send({ from: accounts[0] });
   window.location.reload();
+}
+
+async function removeMember() {
+  const member_address = document.getElementById('remove-member-address').value
+  const groupID = 0; //change when there are multiple groups
+  const accounts = await web3.eth.getAccounts();
+  await contract.methods.removeMember(groupID, member_address).send({ from: accounts[0] });
+}
+
+async function addMember() {
+  const member_address = document.getElementById('add-member-address').value
+  const groupID = 0; //change when there are multiple groups
+  const accounts = await web3.eth.getAccounts();
+  await contract.methods.addMember(groupID, member_address).send({ from: accounts[0] });
 }
 
 // display all groups that user is the admin of, for each provide add member + remove member + create election functionality
