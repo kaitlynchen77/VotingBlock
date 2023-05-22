@@ -9,7 +9,6 @@ window.onload=initialize();
 async function initialize() {
   await connectContract();
   accounts = await web3.eth.getAccounts();
-  console.log(accounts[0]);
   groups=await contract.methods.getGroups().call();
   await getActiveGroups();
   displayElections();
