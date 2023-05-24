@@ -38,8 +38,9 @@ function getActiveGroups() { // all groups that the user is the admin of
     }
   }
 }
-async function createGroup(name) {
-  await contracts.methods.createGroup(name).send({from: accounts[0]})
+async function createGroup() {
+  let name = document.getElementById('group-title').value
+  await contract.methods.createGroup(name).send({from: accounts[0], gas: '1000000'})
   window.location.reload();
 }
 async function createElection() {

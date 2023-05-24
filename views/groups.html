@@ -19,7 +19,20 @@
   <div>
     <select id="groupOptions" onchange="updatePage();"> </select>
   </div>
-  Add election
+  <form onsubmit="createGroup(); return false;">
+    <div>
+      Create Group: Input name for group
+    </div>
+    <div>
+      <label>
+        <input type="text" id="group-title" name="title" placeholder="Group Name" />
+      </label>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+  Create Election: Input name for election
   <form onsubmit="createElection(); return false;">
     <div>
       <!-- temporary hardcoding -->
