@@ -112,17 +112,11 @@ contract Voting {
     }
 
     function addMember(uint groupID, address member_address) public{
-        require(groupID >= 0, "Invalid groupID");
-        require(member_address != address(0),"Invalid member_address");
+        //require(groupID >= 0, "Invalid groupID");
+        //require(member_address != address(0),"Invalid member_address");
 
         Group storage m_group = groups[groupID];
-        uint init_length = m_group.members.length; // initial length of group members
-
         m_group.members.push(member_address);
-
-        if(init_length++ != m_group.members.length){
-            revert("Error -- AddMember() did not succesfully run. member_address was not added to group members array");
-        }
     }
 
     function removeMember(uint groupID, address member_address) public {
@@ -138,10 +132,6 @@ contract Voting {
                 m_group.members.pop();
                 break;
             }
-        }
-
-        if(i == m_group.members.length){
-            revert("Error -- removeMember() did not succesfully run. member_address was not removed from group members array");
         }
     }
 
