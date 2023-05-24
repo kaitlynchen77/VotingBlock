@@ -44,7 +44,3 @@ function addCandidate() {
         "<input type='text' class='form-control w-25' placeholder='Last Name'>" + 
         "<input type='text' class='form-control w-50' placeholder='Candidate Description'>";
 }
-
-async function endElection() {
-    await contracts.methods.endElection(0,0).send({ from: accounts[0] }); //keep 0,0 for now. change when there are multiple elections and groups
-}

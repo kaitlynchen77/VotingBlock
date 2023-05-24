@@ -13,8 +13,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7/web3.min.js"></script>
   <script src="javascript/groups.js"></script>
   <title>Groups</title>
+</head>
 
 <body>
+  <div>
+    <select id="groupOptions" onchange="updatePage();"> </select>
+  </div>
   <form onsubmit="createGroup(); return false;">
     <div>
       Create Group: Input name for group
@@ -28,15 +32,8 @@
       <input type="submit" />
     </div>
   </form>
-
+  Create Election: Input name for election
   <form onsubmit="createElection(); return false;">
-    <div>
-<<<<<<< HEAD
-      Create Election: Drop down to select group goes here
-=======
-      <select id="dropdownOptions" onchange=""> </select>
->>>>>>> 3aa5879aa70ee9c32c0ac4be337b710947b9150a
-    </div>
     <div>
       <!-- temporary hardcoding -->
       <input type="hidden" id="group-ID" name="groupID" value='0'>
@@ -50,7 +47,6 @@
       <input type="submit" />
     </div>
   </form>
-
 
   <form onsubmit="addMember(); return false;">
     <div>
@@ -73,13 +69,16 @@
     </div>
     
     <div>
-      <label>
-        <input type="text" id="remove-member-address" name="member-address" placeholder="member address" />
-      </label>
+      <select id ="memberOptions"></select>
     </div>
     <div>
       <input type="submit" />
     </div>
+  </form>
+  End Election
+  <form onsubmit="endElection(); return false;">
+    <select id="electionOptions"></select>
+    <input type="submit" value="Submit" />
   </form>
 
 
