@@ -72,7 +72,7 @@ async function addMember() {
 async function endElection() {
   groupIndex=groupSelection;
   electionIndex=Number(electionOptions.value);
-  await contract.methods.endElection(groupIndex,electionIndex).send({ from: accounts[0],gas:3000000}); 
+  await contract.methods.endElection(groupIndex,electionIndex).send({ from: accounts[0],gas:1000000}); 
   window.location.reload();
 }
 function groupsDropdown() {
@@ -86,10 +86,12 @@ function updatePage() {
   elections=groups[groupSelection].elections;
   members=groups[groupSelection].members;
   electionOptions = document.getElementById("electionOptions");
+  electionOptions.innerHTML="";
   for(let i = 0; i < elections.length; i++) {
     electionOptions.innerHTML+="<option value='"+i+"'>"+elections[i].electionTitle+"</option>";
   }
   memberOptions = document.getElementById("memberOptions");
+  memberOptions.innerHTML="";
   for(let i = 1; i < members.length; i++) { // i starts at 1 because we do not want to include the admin themself
     memberOptions.innerHTML+="<option value='"+members[i]+"'>"+members[i]+"</option>";
   }
