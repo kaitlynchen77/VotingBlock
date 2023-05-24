@@ -36,7 +36,7 @@ async function connectContract() {
       abi = data.abi;
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xa7b10C35BDea6831b189Fed8e4Dffc7E1d49ca19"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x1C4BCc6a0C5Aadd8E370c9AD9999dce1fdF05679"); // change this address every time you recompile/deploy
 }
 function getActiveGroups() {
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
@@ -50,6 +50,7 @@ function getActiveGroups() {
     }
   }
 }
+
 async function vote(group, election) { // group, election are numbers
   let id;
   const candidates = document.getElementsByName('candidates' + group + ',' + election)

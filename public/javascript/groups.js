@@ -28,7 +28,7 @@ async function connectContract() {
         abi = data.abi; 
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xa7b10C35BDea6831b189Fed8e4Dffc7E1d49ca19"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x1C4BCc6a0C5Aadd8E370c9AD9999dce1fdF05679"); // change this address every time you recompile/deploy
 }
 
 function getActiveGroups() { // all groups that the user is the admin of 
