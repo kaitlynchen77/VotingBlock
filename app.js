@@ -26,6 +26,7 @@ const initiateRouter = require('./routes/initiate');
 const homeRouter = require('./routes/home');
 const testRouter = require('./routes/test');
 const groupsRouter = require('./routes/groups')
+const resultsRouter = require('./routes/results')
 
 
 // view engine setup
@@ -47,6 +48,7 @@ app.use('/initiate', initiateRouter)
 app.use('/home', homeRouter)
 app.use('/test', testRouter)
 app.use('/groups', groupsRouter)
+app.use('/results', resultsRouter)
 
 
 
