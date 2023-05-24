@@ -74,6 +74,7 @@ function renderBallots() {
   for (let i = 0; i < activeGroups.length; i++) {
     //iterate through elections (horizontally spaced)
     for (let j = 0; j < groups[activeGroups[i]].elections.length; j++) {
+      // print group
       let voted = groups[activeGroups[i]].elections[j].voted;
       let k = 0;
       for(; k < voted.length; k++) { //only displays elections that user has not voted in
@@ -94,7 +95,7 @@ function renderBallots() {
             </label>
           </div>
 `         ;
-        }
+        } // if no elections, print this
         ballot.innerHTML += `
         <div>
           <button onclick="vote(${activeGroups[i]},${j});">VOTE</button>

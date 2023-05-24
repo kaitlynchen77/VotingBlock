@@ -7,6 +7,17 @@ const activeGroups=[];
 window.onload=initialize();
 
 async function initialize() {
+  // Is there an injected web3 instance?
+  if (typeof web3 !== 'undefined') {
+    console.log(typeof web3);
+    web3Provider = window.web3.currentProvider;
+    web3 = new Web3(window.web3.currentProvider);
+  } else {
+    console.log('metamask not injected')
+    // If no injected web3 instance is detected, fallback to Ganache.
+    web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
+    web3 = new Web3(web3Provider);
+  } 
   await connectContract();
   accounts = await web3.eth.getAccounts();
   groups=await contract.methods.getGroups().call();
