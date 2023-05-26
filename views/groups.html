@@ -36,66 +36,58 @@
     </div>
   </div>
 
-  <div>
-    <select id="groupOptions" onchange="updatePage();"> </select>
-  </div>
-  <form onsubmit="createGroup(); return false;">
+  <div id="manageGroups">
     <div>
-      Create Group: Input name for group
+      <select id="groupOptions" onchange="updatePage();"> </select>
     </div>
-    <div>
-      <label>
-        <input type="text" id="group-title" name="title" placeholder="Group Name" />
-      </label>
-    </div>
-    <div>
-      <input type="submit" />
-    </div>
-  </form>
-  Create Election: Input name for election
-  <form onsubmit="createElection(); return false;">
-    <div>
-      <label>
-        <input type="text" id="election-title" name="title" placeholder="Election Title" />
-      </label>
-    </div>
-    <div>
-      <input type="submit" />
-    </div>
-  </form>
-
-  <form onsubmit="addMember(); return false;">
-    <div>
+    <form onsubmit="createGroup(); return false;">
+      <div>
+        Create Group: Input name for group
+      </div>
+      <div>
+        <label>
+          <input type="text" id="group-title" name="title" placeholder="Group Name" />
+        </label>
+      </div>
+      <div>
+        <input type="submit" />
+      </div>
+    </form>
+    Create Election: Input name for election
+    <form onsubmit="createElection(); return false;">
+      <div>
+        <label>
+          <input type="text" id="election-title" name="title" placeholder="Election Title" />
+        </label>
+      </div>
+      <div>
+        <input type="submit" />
+      </div>
+    </form>
+  
+    <form onsubmit="addMember(); return false;">
       Add Member: Add a member through their address
+      <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
+      <input type="submit" />
+    </form>
+  
+    <div id="removeMember">
+      <form onsubmit="removeMember(); return false;">
+        Remove Member: Remove a member through their address
+        <select id ="memberOptions"></select>
+        <input id="submitMember" type="submit" />
+      </form>
     </div>
     
-    <div>
-      <label>
-        <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
-      </label>
+    <div id = "endElection">
+      End Election
+      <form onsubmit="endElection(); return false;">
+        <select id="electionOptions"></select>
+        <input id="submitElection" type="submit" value="Submit" />
+      </form>
     </div>
-    <div>
-      <input type="submit" />
-    </div>
-  </form>
-
-  <form onsubmit="removeMember(); return false;">
-    <div>
-      Remove Member: Remove a member through their address
-    </div>
-    
-    <div>
-      <select id ="memberOptions"></select>
-    </div>
-    <div>
-      <input type="submit" />
-    </div>
-  </form>
-  End Election
-  <form onsubmit="endElection(); return false;">
-    <select id="electionOptions"></select>
-    <input type="submit" value="Submit" />
-  </form>
+  </div>
+  
 
 
 </body>

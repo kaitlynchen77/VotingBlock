@@ -1,15 +1,15 @@
-let groupOptions;
 let groupSelection;
-let electionOptions;
-let memberOptions;
 let activeGroups2=[];
 
 // on page reload, add banner at the top that says what action has just been completed
 // error if user is not logged in to metamask
-// add placement if there is nothing in the dropdown
+
+// lag for hiding divs
 
 async function initialize() {
   await getActiveGroups2();
+  const electionOptions = document.getElementById("electionOptions");
+  const memberOptions = document.getElementById("memberOptions");
   groupsDropdown();
   updatePage();
 }
@@ -86,24 +86,34 @@ async function endElection() {
   window.location.reload();
 }
 function groupsDropdown() {
-  groupOptions=document.getElementById("groupOptions");
-  for(let i = 0; i < activeGroups2.length; i++) {
-    groupOptions.innerHTML += "<option value='"+i+"'>"+groups[activeGroups2[i]].groupTitle+"</option>";
+  const groupOptions=document.getElementById("groupOptions");
+  if(activeGroups2.length==0) {
+    document.getElementById("manageGroups").style.display="none";
+  } else {
+    for(let i = 0; i < activeGroups2.length; i++) {
+      groupOptions.innerHTML += "<option value='"+i+"'>"+groups[activeGroups2[i]].groupTitle+"</option>";
+    }
   }
 }
 function updatePage() {
   groupSelection=Number(groupOptions.value);
   let elections=groups[groupSelection].elections; // this appears multiple times throughout the code
   let members=groups[groupSelection].members;
-  electionOptions = document.getElementById("electionOptions");
   electionOptions.innerHTML="";
-  for(let i = 0; i < elections.length; i++) {
-    electionOptions.innerHTML+="<option value='"+i+"'>"+elections[i].electionTitle+"</option>";
+  if(elections.length==0) {
+    document.getElementById("endElection").style.display="none";
+  } else {
+    for(let i = 0; i < elections.length; i++) {
+      electionOptions.innerHTML+="<option value='"+i+"'>"+elections[i].electionTitle+"</option>";
+    }
   }
-  memberOptions = document.getElementById("memberOptions");
   memberOptions.innerHTML="";
-  for(let i = 1; i < members.length; i++) { // i starts at 1 because we do not want to include the admin themself
-    memberOptions.innerHTML+="<option value='"+members[i]+"'>"+members[i]+"</option>";
+  if(members.length==1) {
+    document.getElementById("removeMember").style.display="none";
+  } else {
+    for(let i = 1; i < members.length; i++) { // i starts at 1 because we do not want to include the admin themself
+      memberOptions.innerHTML+="<option value='"+members[i]+"'>"+members[i]+"</option>";
+    }
   }
 }
 

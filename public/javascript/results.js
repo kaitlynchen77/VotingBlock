@@ -1,56 +1,8 @@
-var contract;
-var abi;
-let accounts;
-let groups;
-let web3Provider;
-const activeGroups = [];
-
-
 window.onload = initialize();
 
-
 async function initialize() {
-  
-  // Is there an injected web3 instance?
-  if (typeof web3 !== 'undefined') {
-    console.log(typeof web3);
-    web3Provider = window.web3.currentProvider;
-    web3 = new Web3(window.web3.currentProvider);
-  } else {
-    console.log('metamask not injected')
-    // If no injected web3 instance is detected, fallback to Ganache.
-    web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
-    web3 = new Web3(web3Provider);
-  } 
-  await connectContract();
-  accounts = await web3.eth.getAccounts();
-  groups = await contract.methods.getGroups().call();
-  console.log(groups);
-  await getActiveGroups();
   await rendercurrent();
 }
-async function connectContract() {
-  await fetch('./Voting.json')
-    .then(response => response.json()) // parse the response as JSON
-    .then(data => {
-      abi = data.abi;
-    })
-    .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0x1C4BCc6a0C5Aadd8E370c9AD9999dce1fdF05679"); // change this address every time you recompile/deploy
-}
-function getActiveGroups() {
-  for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
-    let group = groups[i];
-    let members = group.members;
-    for (let j = 0; j < members.length; j++) {
-      if (members[j] == accounts[0]) {
-        activeGroups.push(i);
-        break;
-      }
-    }
-  }
-}
-
 function rendercurrent() {
     const current = document.querySelector("#current_elections");
     const past = document.querySelector("#past_elections");
