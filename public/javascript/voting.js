@@ -1,6 +1,7 @@
 window.onload = initialize();
 
 async function initialize() {
+  await sharedInitialize();
   await renderBallots();
 }
 
@@ -18,7 +19,7 @@ async function vote(group, election) { // group, election are numbers
   // Votes for candidate if one has been selected 
   if (id != null) {
     await contract.methods.vote(group, election, id).send({ from: accounts[0] });
-    window.location.reload();
+    window.location.reload(); // quite a bit of lag here, although for some reason this isn't the case for any of the functions in groups.js
   }
 }
 

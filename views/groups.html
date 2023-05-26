@@ -13,13 +13,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7/web3.min.js"></script>
   <script src="javascript/shared.js"></script>
   <script src="javascript/groups.js"></script>
-  <script>
-    async function completeIntialize() {
-      await sharedInitialize();
-      initialize();
-    }
-    window.onload = completeIntialize();
-  </script>
   <title>Groups</title>
 </head>
 
@@ -35,24 +28,25 @@
       Please enter a valid address.
     </div>
   </div>
-
+  <form onsubmit="createGroup(); return false;">
+    <div>
+      Create Group: Input name for group
+    </div>
+    <div>
+      <label>
+        <input type="text" id="group-title" name="title" placeholder="Group Name" />
+      </label>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+  
   <div id="manageGroups">
     <div>
       <select id="groupOptions" onchange="updatePage();"> </select>
     </div>
-    <form onsubmit="createGroup(); return false;">
-      <div>
-        Create Group: Input name for group
-      </div>
-      <div>
-        <label>
-          <input type="text" id="group-title" name="title" placeholder="Group Name" />
-        </label>
-      </div>
-      <div>
-        <input type="submit" />
-      </div>
-    </form>
+
     Create Election: Input name for election
     <form onsubmit="createElection(); return false;">
       <div>

@@ -1,35 +1,29 @@
-// let web3 = require('../../app.js').web3;
+window.onload = initialize();
 
-// console.log(web3)
+async function initialize() {
+  await sharedInitialize();
+  console.log(accounts);
+  if(accounts.length > 0) {
+    window.location.href = "./home";
+  }
+}
 
-
-function checkSignin() {
-    if (typeof window.ethereum !== 'undefined') {
-        checkAccounts();
-      } else {
-        //send error message
-        console.log('Please install MetaMask or another web3 provider')
-      }
-}
-async function checkAccounts() {
-    const accounts= await ethereum.request({ method: 'eth_accounts' }).then(redirect).catch((err) => {
-      console.error(err);
-    });
-}
-function redirect(accounts) {
-    if(accounts.length===0) {
-        connect();
-    } else {
-        window.location.href = "./voting";
-    }
-}
-async function connect() { // code from https://github.com/nikitamarcius
-  const accounts = await window.ethereum.request({
-    method: "wallet_requestPermissions",
-    params: [{
+async function connect() { // code adapted from https://github.com/nikitamarcius
+  try {
+    await window.ethereum.request({
+      method: "wallet_requestPermissions",
+      params: [{
         eth_accounts: {}
-    }]
-  }).then(() => ethereum.request({
-    method: 'eth_requestAccounts'
-  }))
+      }]
+    });
+    
+    const accounts = await ethereum.request({
+      method: 'eth_requestAccounts'
+    });
+    window.location.href = './home';
+  } catch (error) {
+    if (error.code === 4001) {
+      console.log('User canceled the request or denied permission');
+    } 
+  }
 }

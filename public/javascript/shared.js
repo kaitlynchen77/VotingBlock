@@ -12,7 +12,7 @@ async function sharedInitialize() {
       web3 = new Web3(window.web3.currentProvider);
       accounts = await web3.eth.getAccounts();
       if(accounts.length ==0) { // user is not logged in
-        window.location.href = "./"; // there is some lag here, find a way to move this to app.js
+        window.location.href = "./";
       }
     } else {
       window.location.href = "./";

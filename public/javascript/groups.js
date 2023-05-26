@@ -1,12 +1,12 @@
 let groupSelection;
 let activeGroups2=[];
 
-// on page reload, add banner at the top that says what action has just been completed
-// error if user is not logged in to metamask
+window.onload = intialize();
 
-// lag for hiding divs
+// slight lag for hiding divs
 
-async function initialize() {
+async function intialize() {
+  await sharedInitialize();
   await getActiveGroups2();
   const electionOptions = document.getElementById("electionOptions");
   const memberOptions = document.getElementById("memberOptions");

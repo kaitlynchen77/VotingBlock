@@ -1,6 +1,7 @@
 window.onload=initialize();
 
 async function initialize() {
+  await sharedInitialize();
   displayElections();
 }
 
