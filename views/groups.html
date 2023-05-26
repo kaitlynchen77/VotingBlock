@@ -11,7 +11,15 @@
     integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7/web3.min.js"></script>
+  <script src="javascript/shared.js"></script>
   <script src="javascript/groups.js"></script>
+  <script>
+    async function completeIntialize() {
+      await sharedInitialize();
+      initialize();
+    }
+    window.onload = completeIntialize();
+  </script>
   <title>Groups</title>
 </head>
 

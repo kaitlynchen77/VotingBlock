@@ -1,49 +1,22 @@
-var contract;
-var abi;
-let groups;
-let accounts;
-const activeGroups=[];
-window.onload=initialize();
 let groupOptions;
 let groupSelection;
 let electionOptions;
 let memberOptions;
+let activeGroups2=[];
 
 // on page reload, add banner at the top that says what action has just been completed
+// error if user is not logged in to metamask
+// add placement if there is nothing in the dropdown
 
 async function initialize() {
-  // Is there an injected web3 instance?
-  if (typeof web3 !== 'undefined') {
-    console.log(typeof web3);
-    web3Provider = window.web3.currentProvider;
-    web3 = new Web3(window.web3.currentProvider);
-  } else {
-    console.log('metamask not injected')
-    // If no injected web3 instance is detected, fallback to Ganache.
-    web3Provider = new web3.providers.HttpProvider('http://127.0.0.1:7545');
-    web3 = new Web3(web3Provider);
-  } 
-  await connectContract();
-  accounts = await web3.eth.getAccounts();
-  groups=await contract.methods.getGroups().call();
-  await getActiveGroups();
+  await getActiveGroups2();
   groupsDropdown();
   updatePage();
 }
-async function connectContract() {
-  await fetch('./Voting.json')
-    .then(response => response.json()) // parse the response as JSON
-    .then(data => {
-      abi = data.abi;
-    })
-    .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xa7b10C35BDea6831b189Fed8e4Dffc7E1d49ca19"); // change this address every time you recompile/deploy
-}
-
-function getActiveGroups() { // all groups that the user is the admin of 
-  for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
-    if(groups[i].adminAddress==accounts[0]) {
-      activeGroups.push(i);
+function getActiveGroups2() { // all groups that the user is the admin of 
+  for (let i = 0; i < activeGroups.length; i++) { // groups[i] iterates through each group in groups
+    if(groups[activeGroups[i]].adminAddress==accounts[0]) {
+      activeGroups2.push(activeGroups[i]);
     }
   }
 }
@@ -114,8 +87,8 @@ async function endElection() {
 }
 function groupsDropdown() {
   groupOptions=document.getElementById("groupOptions");
-  for(let i = 0; i < activeGroups.length; i++) {
-    groupOptions.innerHTML += "<option value='"+i+"'>"+groups[activeGroups[i]].groupTitle+"</option>";
+  for(let i = 0; i < activeGroups2.length; i++) {
+    groupOptions.innerHTML += "<option value='"+i+"'>"+groups[activeGroups2[i]].groupTitle+"</option>";
   }
 }
 function updatePage() {
@@ -134,5 +107,3 @@ function updatePage() {
   }
 }
 
-
-// display all groups that user is the admin of, for each provide add member + remove member + create election functionality
