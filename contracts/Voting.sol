@@ -103,7 +103,7 @@ contract Voting {
     }
 
     // Function to get the name and vote count for a option
-    function getCandidate(uint groupID, uint pollIndex, uint optionIndex) public view returns (string memory, uint) {
+    function getOption(uint groupID, uint pollIndex, uint optionIndex) public view returns (string memory, uint) {
         Poll storage poll = groups[groupID].polls[pollIndex];
         // Check if option index is valid
         require(optionIndex >= 0 && optionIndex < poll.options.length, "Invalid option index");
@@ -112,18 +112,21 @@ contract Voting {
         return (poll.options[optionIndex].name, poll.options[optionIndex].voteCount);
     }
 
+    function endPoll (uint groupID, uint pollIndex) public {
+        Poll[] storage polls = groups[groupID].polls;
+        groups[groupID].completed.push(polls[pollIndex]);
+        for(uint i = pollIndex; i < polls.length-1; i++) {
+            polls[i]=polls[i+1];
+        }
+        polls.pop();
+    }
+
     function addMember(uint groupID, address member_address) public{
-        require(groupID >= 0, "Invalid groupID");
-        require(member_address != address(0),"Invalid member_address");
+        //require(groupID >= 0, "Invalid groupID");
+        //require(member_address != address(0),"Invalid member_address");
 
         Group storage m_group = groups[groupID];
-        uint init_length = m_group.members.length; // initial length of group members
-
         m_group.members.push(member_address);
-
-        if(init_length++ != m_group.members.length){
-            revert("Error -- AddMember() did not succesfully run. member_address was not added to group members array");
-        }
     }
 
     function removeMember(uint groupID, address member_address) public {
@@ -140,18 +143,5 @@ contract Voting {
                 break;
             }
         }
-
-        if(i == m_group.members.length){
-            revert("Error -- removeMember() did not succesfully run. member_address was not removed from group members array");
-        }
-    }
-
-    function endPoll (uint groupID, uint pollIndex) public {
-        Poll[] storage polls = groups[groupID].polls;
-        groups[groupID].completed.push(polls[pollIndex]);
-        for(uint i = pollIndex; i < polls.length-1; i++) {
-            polls[i]=polls[i+1];
-        }
-        polls.pop();
     }
 }

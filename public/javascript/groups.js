@@ -1,47 +1,55 @@
-var contract;
-var abi;
-let groups;
-let accounts;
-const activeGroups = [];
-window.onload = initialize();
-let numOptions = 2;
+let groupSelection;
+let activeGroups2=[];
 
-async function initialize() {
-  await connectContract();
-  accounts = await web3.eth.getAccounts();
-  groups = await contract.methods.getGroups().call();
-  await getActiveGroups();
+window.onload = intialize();
+
+// slight lag for hiding divs
+
+async function intialize() {
+  await sharedInitialize();
+  await getActiveGroups2();
+  const pollOptions = document.getElementById("pollOptions");
+  const memberOptions = document.getElementById("memberOptions");
   groupsDropdown();
+  updatePage();
 }
-
-async function connectContract() {
-  web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
-  await fetch('./Voting.json')
-    .then(response => response.json()) // parse the response as JSON
-    .then(data => {
-      abi = data.abi;
-    })
-    .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
-}
-
-function getActiveGroups() { // all groups that the user is the admin of 
-  for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
-    if (groups[i].adminAddress == accounts[0]) {
-      activeGroups.push(i);
+function getActiveGroups2() { // all groups that the user is the admin of 
+  for (let i = 0; i < activeGroups.length; i++) { // groups[i] iterates through each group in groups
+    if (groups[activeGroups[i]].adminAddress == accounts[0]) {
+      activeGroups2.push(activeGroups[i]);
     }
   }
 }
-
-async function createGroup(name) {
-  await contracts.methods.createGroup(name).send({ from: accounts[0] });
-  window.location.reload();
+async function createGroup() {
+  let name = document.getElementById('group-title').value;
+  let i = 0;
+  for (; i < groups.length; i++) {
+    if (groups[i].groupTitle == name) {
+      alert("A group with this name already exists.");
+      break;
+    }
+  }
+  if (i == groups.length) {
+    await contract.methods.createGroup(name).send({ from: accounts[0], gas: '1000000' })
+    window.location.reload();
+  }
 }
 
 async function createPoll() {
   console.log('createPoll');
-  const groupID = document.getElementById('group-ID').value;
+  // const groupID = document.getElementById('group-ID').value;
+  const groupID = groupSelection;
   const title = document.getElementById('poll-title').value;
+
+  // check if duplicate title
+  polls = groups[groupID].polls;
+  let i = 0;
+  for (; i < polls.length; i++) {
+    if (polls[i].pollTitle == title) {
+      alert("A poll with this name already exists.");
+      window.location.reload() // might need to come back to fix this if it reloads before user can read alert
+    }
+  }
 
   //load options
   const optionElements = document.getElementsByName('option')
@@ -58,25 +66,73 @@ async function createPoll() {
   window.location.reload();
 }
 
+async function removeMember() {
+  const member_address = document.getElementById('memberOptions').value;
+  const groupID = groupSelection;   const accounts = await web3.eth.getAccounts();
+  await contract.methods.removeMember(groupID, member_address).send({ from: accounts[0]});
+  window.location.reload();
+}
+
+async function addMember() { 
+  const member_address = document.getElementById('add-member-address').value;
+  if (!web3.utils.isAddress(member_address)) {
+    alert('Invalid Ethereum address');
+  } else {
+    const groupID =groupSelection;
+    let members = groups[groupID].members;
+    let i = 0;
+    for(; i < members.length;i++) {
+      if(members[i]==member_address) {
+        alert('This address is already in the group');
+        break;
+      }
+    }
+    if(i==members.length) {
+      const accounts = await web3.eth.getAccounts();
+      await contract.methods.addMember(groupID, member_address).send({ from: accounts[0]});
+      window.location.reload();
+    }
+  }
+
+}
+async function endPoll() {
+  groupIndex=groupSelection;
+  pollIndex=Number(pollOptions.value);
+  await contract.methods.endPoll(groupIndex,pollIndex).send({ from: accounts[0],gas:1000000}); 
+  window.location.reload();
+}
+
 function groupsDropdown() {
-  dropdownOptions = document.getElementById("dropdownOptions");
-  for (let i = 0; i < activeGroups.length; i++) {
-    dropdownOptions.innerHTML += "<option value=___>" + groups[activeGroups[i]].groupTitle + "</option>";
+  // display all groups that user is the admin of, for each provide add member + remove member + create poll functionality
+  const groupOptions = document.getElementById("groupOptions");
+  if (activeGroups2.length == 0) {
+    document.getElementById("manageGroups").style.display = "none";
+  } else {
+    for (let i = 0; i < activeGroups2.length; i++) {
+      groupOptions.innerHTML += "<option value='" + i + "'>" + groups[activeGroups2[i]].groupTitle + "</option>";
+    }
   }
 }
-
-async function removeMember() {
-  const member_address = document.getElementById('remove-member-address').value
-  const groupID = 0; //change when there are multiple groups
-  const accounts = await web3.eth.getAccounts();
-  await contract.methods.removeMember(groupID, member_address).send({ from: accounts[0] });
-}
-
-async function addMember() {
-  const member_address = document.getElementById('add-member-address').value
-  const groupID = 0; //change when there are multiple groups
-  const accounts = await web3.eth.getAccounts();
-  await contract.methods.addMember(groupID, member_address).send({ from: accounts[0] });
+function updatePage() {
+  groupSelection = Number(groupOptions.value);
+  let polls = groups[groupSelection].polls; // this appears multiple times throughout the code
+  let members = groups[groupSelection].members;
+  pollOptions.innerHTML = "";
+  if (polls.length == 0) {
+    document.getElementById("endPoll").style.display = "none";
+  } else {
+    for (let i = 0; i < polls.length; i++) {
+      pollOptions.innerHTML += "<option value='" + i + "'>" + polls[i].pollTitle + "</option>";
+    }
+  }
+  memberOptions.innerHTML = "";
+  if (members.length == 1) {
+    document.getElementById("removeMember").style.display = "none";
+  } else {
+    for (let i = 1; i < members.length; i++) { // i starts at 1 because we do not want to include the admin themself
+      memberOptions.innerHTML += "<option value='" + members[i] + "'>" + members[i] + "</option>";
+    }
+  }
 }
 
 function addOption() {
@@ -104,4 +160,4 @@ function addOption() {
 }
 
 
-// display all groups that user is the admin of, for each provide add member + remove member + create poll functionality
+

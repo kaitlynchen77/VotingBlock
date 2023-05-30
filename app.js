@@ -5,15 +5,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const nunjucks = require('nunjucks');
-// const Web3 = require('web3');
-// const provider = new Web3.providers.HttpProvider("http://127.0.0.1:7545"); 
-
-// async function getContract(MyContract) {
-//   const votingInstance = await MyContract.deployed();
-//   const accounts = await web3.eth.getAccounts();
-//   await votingInstance.vote(0, { from: accounts[0] });
-//   return votingInstance
-// }
 
 nunjucks.configure('views', {
   autoescape: true,
@@ -22,15 +13,14 @@ nunjucks.configure('views', {
 
 const indexRouter = require('./routes/index');
 const votingRouter = require('./routes/voting');
-const initiateRouter = require('./routes/initiate');
 const homeRouter = require('./routes/home');
 const testRouter = require('./routes/test');
 const groupsRouter = require('./routes/groups')
+const resultsRouter = require('./routes/results')
 
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-// app.engine('html', require('ejs').renderFile);  DELETE LATER
 app.set('view engine', 'html');
 
 app.use(logger('dev'));
@@ -43,10 +33,10 @@ app.use(express.static(__dirname + '/public'));
 
 app.use('/', indexRouter);
 app.use('/voting', votingRouter)
-app.use('/initiate', initiateRouter)
 app.use('/home', homeRouter)
 app.use('/test', testRouter)
 app.use('/groups', groupsRouter)
+app.use('/results', resultsRouter)
 
 
 

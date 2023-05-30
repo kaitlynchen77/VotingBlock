@@ -11,18 +11,42 @@
     integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7/web3.min.js"></script>
+  <script src="javascript/shared.js"></script>
   <script src="javascript/groups.js"></script>
   <title>Groups</title>
+</head>
 
 <body>
-  <form onsubmit="createPoll(); return false;">
+  <!-- toast alert for invalid address -->
+  <div class="toast" data-autohide="false">
+    <div class="toast-header">
+      <strong class="mr-auto text-primary">Error</strong>
+      <!-- <small class="text-muted">5 mins ago</small> -->
+      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast">&times;</button>
+    </div>
+    <div class="toast-body">
+      Please enter a valid address.
+    </div>
+  </div>
+  <form onsubmit="createGroup(); return false;">
     <div>
-      <select id="dropdownOptions" onchange=""> </select>
+      Create Group: Input name for group
     </div>
     <div>
-      <!-- temporary hardcoding -->
-      <input type="hidden" id="group-ID" name="groupID" value='0'>
+      <label>
+        <input type="text" id="group-title" name="title" placeholder="Group Name" />
+      </label>
     </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+  
+  <div id="manageGroups">
+    <div>
+      <select id="groupOptions" onchange="updatePage();"> </select>
+    </div>
+
     <div id="poll-form">
       <label>
         <input type="text" id="poll-title" name="title" placeholder="Poll Title" />
@@ -38,45 +62,34 @@
         </label>
       </div>
       <div id="additional-option-fields">
-
+    
       </div>
       <button type="button" onClick="addOption()">Add Option</button>
     </div>
-    <div>
-      <input type="submit" />
-    </div>
-  </form>
-
-
-  <form onsubmit="addMember(); return false;">
-    <div>
+  
+    <form onsubmit="addMember(); return false;">
       Add Member: Add a member through their address
-    </div>
-
-    <div>
-      <label>
-        <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
-      </label>
-    </div>
-    <div>
+      <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
       <input type="submit" />
+    </form>
+  
+    <div id="removeMember">
+      <form onsubmit="removeMember(); return false;">
+        Remove Member: Remove a member through their address
+        <select id ="memberOptions"></select>
+        <input id="submitMember" type="submit" />
+      </form>
     </div>
-  </form>
-
-  <form onsubmit="removeMember(); return false;">
-    <div>
-      Remove Member: Remove a member through their address
+    
+    <div id = "endPoll">
+      End Poll
+      <form onsubmit="endPoll(); return false;">
+        <select id="pollOptions"></select>
+        <input id="submitPoll" type="submit" value="Submit" />
+      </form>
     </div>
-
-    <div>
-      <label>
-        <input type="text" id="remove-member-address" name="member-address" placeholder="member address" />
-      </label>
-    </div>
-    <div>
-      <input type="submit" />
-    </div>
-  </form>
+  </div>
+  
 
 
 </body>
