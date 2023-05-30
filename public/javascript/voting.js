@@ -26,9 +26,6 @@ async function initialize() {
   await connectContract();
   accounts = await web3.eth.getAccounts();
   groups = await contract.methods.getGroups().call();
-  console.log("hello")
-
-  console.log(groups);
   await getActiveGroups();
   await renderBallots();
 }
@@ -39,7 +36,7 @@ async function connectContract() {
       abi = data.abi;
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xE437fe303f4EbAA005cbDe94e1E06D01a6678673"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
 }
 function getActiveGroups() {
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups
@@ -53,20 +50,20 @@ function getActiveGroups() {
     }
   }
 }
-async function vote(group, election) { // group, election are numbers
+async function vote(group, poll) { // group, poll are numbers
   let id;
-  const candidates = document.getElementsByName('candidates' + group + ',' + election)
-  // Checks to see which if any candidate has been selected
-  for (let i = 0; i < candidates.length; i++) {
-    if (candidates[i].checked) {
+  const options = document.getElementsByName('options' + group + ',' + poll)
+  // Checks to see which if any option has been selected
+  for (let i = 0; i < options.length; i++) {
+    if (options[i].checked) {
       id = i;
       break;
     }
   }
   const accounts = await web3.eth.getAccounts();
-  // Votes for candidate if one has been selected 
+  // Votes for option if one has been selected 
   if (id != null) {
-    await contract.methods.vote(group, election, id).send({ from: accounts[0] });
+    await contract.methods.vote(group, poll, id).send({ from: accounts[0] });
     window.location.reload();
   }
 }
@@ -75,25 +72,25 @@ function renderBallots() {
   const ballots = document.querySelector("#ballots");
   //iterate through groups (vertically spaced)
   for (let i = 0; i < activeGroups.length; i++) {
-    //iterate through elections (horizontally spaced)
-    for (let j = 0; j < groups[activeGroups[i]].elections.length; j++) {
-      let voted = groups[activeGroups[i]].elections[j].voted;
+    //iterate through polls (horizontally spaced)
+    for (let j = 0; j < groups[activeGroups[i]].polls.length; j++) {
+      let voted = groups[activeGroups[i]].polls[j].voted;
       let k = 0;
-      for(; k < voted.length; k++) { //only displays elections that user has not voted in
+      for(; k < voted.length; k++) { //only displays polls that user has not voted in
         if(voted[k]==accounts[0]) {
           break;
         }
       }
       if(k==voted.length) {
-        ballots.innerHTML += "<div id='group" + activeGroups[i] + "election" + j + "'>  </div>";
-        const ballot = document.querySelector('#group' + activeGroups[i] + 'election' + j);
-        //iterate through candidates
-        for (let k = 0; k < groups[activeGroups[i]].elections[j].candidates.length; k++) {
+        ballots.innerHTML += "<div id='group" + activeGroups[i] + "poll" + j + "'>  </div>";
+        const ballot = document.querySelector('#group' + activeGroups[i] + 'poll' + j);
+        //iterate through options
+        for (let k = 0; k < groups[activeGroups[i]].polls[j].options.length; k++) {
           ballot.innerHTML += `
           <div>
             <label>
-              <input type="radio" name="candidates${activeGroups[i]},${j}" value="${k}" />
-              ${groups[activeGroups[i]].elections[j].candidates[k].name}
+              <input type="radio" name="options${activeGroups[i]},${j}" value="${k}" />
+              ${groups[activeGroups[i]].polls[j].options[k].name}
             </label>
           </div>
 `         ;

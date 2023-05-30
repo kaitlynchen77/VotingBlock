@@ -10,17 +10,17 @@ contract Voting {
         uint voteCount;
     }
 
-    // Structure of election
+    // Structure of poll
     struct Poll {
-        string electionTitle;
+        string pollTitle;
         Option[] options;
         address[] voted;  // members addresses for those who have already voted
     }
 
     struct Group {
         string groupTitle;
-        Poll[] elections; // active elections
-        Poll[] completed; // completed elections
+        Poll[] polls; // active polls
+        Poll[] completed; // completed polls
         address[] members; // Array of member addresses
         address adminAddress;
     }
@@ -47,20 +47,20 @@ contract Voting {
         newGroup.members.push(newGroup.adminAddress);
     }
 
-   function createPoll(uint groupID, string memory name, string[] memory names) public { 
+   function createPoll(uint groupID, string memory name, string[] memory options) public { 
         require(msg.sender == groups[groupID].adminAddress);
-        Poll[] storage elections = groups[groupID].elections;
-        elections.push();
-        Poll storage newPoll = elections[elections.length-1];
-        newPoll.electionTitle=name;
-        for(uint i = 0; i < names.length; i++) {
-            newPoll.options.push(Option(names[i], 0));
+        Poll[] storage polls = groups[groupID].polls;
+        polls.push();
+        Poll storage newPoll = polls[polls.length-1];
+        newPoll.pollTitle=name;
+        for(uint i = 0; i < options.length; i++) {
+            newPoll.options.push(Option(options[i], 0));
         }
     } 
 
-    // adds a new candidate to the last election in a specified group
+    // adds a new option to the last poll in a specified group
     // function createOptions(uint groupID, string[] memory names) public {
-    //     Option[] storage options = groups[groupID].elections[groups[groupID].elections.length - 1].options;
+    //     Option[] storage options = groups[groupID].polls[groups[groupID].polls.length - 1].options;
     //     for(uint i = 0; i < names.length; i++) {
     //         options.push(Option(names[i], 0));
     //     }
@@ -71,12 +71,12 @@ contract Voting {
     }
 
     function getPolls(uint groupID) public view returns(Poll[] memory) {
-        return groups[groupID].elections;
+        return groups[groupID].polls;
     }
 
-    // Function to vote for a candidate
-    function vote(uint groupID, uint electionIndex, uint candidateIndex) public {
-        Poll storage election = groups[groupID].elections[electionIndex];
+    // Function to vote for an option
+    function vote(uint groupID, uint pollIndex, uint optionIndex) public {
+        Poll storage poll = groups[groupID].polls[pollIndex];
         address[] storage members = groups[groupID].members;
         uint i = 0;
         for(; i < members.length; i++) { // checks if user is a member of the group
@@ -86,30 +86,30 @@ contract Voting {
         }
         if(i < members.length) {
             i = 0;
-            for(; i < election.voted.length; i++) { // checks if user has already voted
-                if(election.voted[i]==msg.sender) { 
+            for(; i < poll.voted.length; i++) { // checks if user has already voted
+                if(poll.voted[i]==msg.sender) { 
                     break;
                 }
             }
-            if(i==election.voted.length) {
-                // Check if candidate index is valid
-                require(candidateIndex >= 0 && candidateIndex < election.options.length, "Invalid candidate index");
-                // Increment the vote count for the candidate
-                election.options[candidateIndex].voteCount++;
-                election.voted.push(msg.sender);
+            if(i==poll.voted.length) {
+                // Check if option index is valid
+                require(optionIndex >= 0 && optionIndex < poll.options.length, "Invalid option index");
+                // Increment the vote count for the option
+                poll.options[optionIndex].voteCount++;
+                poll.voted.push(msg.sender);
             }
         }
         
     }
 
-    // Function to get the name and vote count for a candidate
-    function getCandidate(uint groupID, uint electionIndex, uint candidateIndex) public view returns (string memory, uint) {
-        Poll storage election = groups[groupID].elections[electionIndex];
-        // Check if candidate index is valid
-        require(candidateIndex >= 0 && candidateIndex < election.options.length, "Invalid candidate index");
+    // Function to get the name and vote count for a option
+    function getCandidate(uint groupID, uint pollIndex, uint optionIndex) public view returns (string memory, uint) {
+        Poll storage poll = groups[groupID].polls[pollIndex];
+        // Check if option index is valid
+        require(optionIndex >= 0 && optionIndex < poll.options.length, "Invalid option index");
 
-        // Return the name and vote count for the candidate
-        return (election.options[candidateIndex].name, election.options[candidateIndex].voteCount);
+        // Return the name and vote count for the option
+        return (poll.options[optionIndex].name, poll.options[optionIndex].voteCount);
     }
 
     function addMember(uint groupID, address member_address) public{
@@ -146,12 +146,12 @@ contract Voting {
         }
     }
 
-    function endElection (uint groupID, uint electionIndex) public {
-        Poll[] storage elections = groups[groupID].elections;
-        groups[groupID].completed.push(elections[electionIndex]);
-        for(uint i = electionIndex; i < elections.length-1; i++) {
-            elections[i]=elections[i+1];
+    function endPoll (uint groupID, uint pollIndex) public {
+        Poll[] storage polls = groups[groupID].polls;
+        groups[groupID].completed.push(polls[pollIndex]);
+        for(uint i = pollIndex; i < polls.length-1; i++) {
+            polls[i]=polls[i+1];
         }
-        elections.pop();
+        polls.pop();
     }
 }

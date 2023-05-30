@@ -11,7 +11,7 @@ async function initialize() {
   accounts = await web3.eth.getAccounts();
   groups=await contract.methods.getGroups().call();
   await getActiveGroups();
-  displayElections();
+  displayPolls();
 }
 
 async function connectContract() {
@@ -22,7 +22,7 @@ async function connectContract() {
         abi = data.abi; 
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xE437fe303f4EbAA005cbDe94e1E06D01a6678673"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
 }
 
 function getActiveGroups() {
@@ -38,20 +38,20 @@ function getActiveGroups() {
   }
 }
 
-function displayElections() {
+function displayPolls() {
   let yourGroups=document.getElementById('yourGroups')
   for (let i = 0; i < activeGroups.length; i++) { // groups[i] iterates through each group in groups
     let group = groups[activeGroups[i]];
     yourGroups.innerHTML+="<br>Group Name: " + group[0];
-    let elections = group[1];
-    for(let k = 0; k < elections.length; k++) {
-      let election=elections[k];
-      yourGroups.innerHTML+="<br>Election Name: " + election[0];
-      let candidates=election[1];
-      for(let l = 0; l < candidates.length; l++) {
-        let candidate=candidates[l];
-        yourGroups.innerHTML+="<br>Candidate Name: " + candidate[0];
-        yourGroups.innerHTML+="<br>Candidate Vote Count: " + candidate[1];
+    let polls = group[1];
+    for(let k = 0; k < polls.length; k++) {
+      let poll=polls[k];
+      yourGroups.innerHTML+="<br>Poll Name: " + poll[0];
+      let options=poll[1];
+      for(let l = 0; l < options.length; l++) {
+        let option=options[l];
+        yourGroups.innerHTML+="<br>Option Name: " + option[0];
+        yourGroups.innerHTML+="<br>Option Vote Count: " + option[1];
       }
     }
   }

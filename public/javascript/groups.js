@@ -22,7 +22,7 @@ async function connectContract() {
       abi = data.abi;
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0xE437fe303f4EbAA005cbDe94e1E06D01a6678673"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
 }
 
 function getActiveGroups() { // all groups that the user is the admin of 
@@ -32,27 +32,32 @@ function getActiveGroups() { // all groups that the user is the admin of
     }
   }
 }
+
 async function createGroup(name) {
   await contracts.methods.createGroup(name).send({ from: accounts[0] });
   window.location.reload();
 }
-async function createElection() {
-  console.log('createElection');
+
+async function createPoll() {
+  console.log('createPoll');
   const groupID = document.getElementById('group-ID').value;
   const title = document.getElementById('poll-title').value;
 
   //load options
-  const options = document.getElementsByName('option')
+  const optionElements = document.getElementsByName('option')
+  let options = [];
   
-  for (let i = 0; i < options.length; i++) {
-    await contract.methods.createElection(parseInt(groupID), title).send({ from: accounts[0] });
-    console.log(options[i].value)
+  for (let i = 0; i < optionElements.length; i++) {
+    console.log(optionElements[i].value)
+    options.push(optionElements[i].value)
   }
 
   const accounts = await web3.eth.getAccounts();
-  await contract.methods.createElection(parseInt(groupID), title).send({ from: accounts[0] });
+  console.log(options)
+  await contract.methods.createPoll(parseInt(groupID), title, options).send({ from: accounts[0] });
   window.location.reload();
 }
+
 function groupsDropdown() {
   dropdownOptions = document.getElementById("dropdownOptions");
   for (let i = 0; i < activeGroups.length; i++) {
@@ -99,4 +104,4 @@ function addOption() {
 }
 
 
-// display all groups that user is the admin of, for each provide add member + remove member + create election functionality
+// display all groups that user is the admin of, for each provide add member + remove member + create poll functionality
