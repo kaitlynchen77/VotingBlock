@@ -5,7 +5,7 @@ async function initialize() {
   await renderBallots();
 }
 
-async function vote(group, election) { // group, election are numbers
+async function vote(group, poll) { // group, election are numbers
   let id;
   const options = document.getElementsByName('options' + group + ',' + poll)
   // Checks to see which if any option has been selected

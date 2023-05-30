@@ -41,12 +41,13 @@
       <input type="submit" />
     </div>
   </form>
-  
+
   <div id="manageGroups">
     <div>
       <select id="groupOptions" onchange="updatePage();"> </select>
     </div>
-
+  </div>
+  <form onsubmit="createPoll(); return false;">
     <div id="poll-form">
       <label>
         <input type="text" id="poll-title" name="title" placeholder="Poll Title" />
@@ -62,34 +63,36 @@
         </label>
       </div>
       <div id="additional-option-fields">
-    
+
       </div>
       <button type="button" onClick="addOption()">Add Option</button>
+      <div>
+        <input type="submit" />
+      </div>
     </div>
-  
-    <form onsubmit="addMember(); return false;">
-      Add Member: Add a member through their address
-      <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
-      <input type="submit" />
+  </form>
+  <form onsubmit="addMember(); return false;">
+    Add Member: Add a member through their address
+    <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
+    <input type="submit" />
+  </form>
+
+  <div id="removeMember">
+    <form onsubmit="removeMember(); return false;">
+      Remove Member: Remove a member through their address
+      <select id="memberOptions"></select>
+      <input id="submitMember" type="submit" />
     </form>
-  
-    <div id="removeMember">
-      <form onsubmit="removeMember(); return false;">
-        Remove Member: Remove a member through their address
-        <select id ="memberOptions"></select>
-        <input id="submitMember" type="submit" />
-      </form>
-    </div>
-    
-    <div id = "endPoll">
-      End Poll
-      <form onsubmit="endPoll(); return false;">
-        <select id="pollOptions"></select>
-        <input id="submitPoll" type="submit" value="Submit" />
-      </form>
-    </div>
   </div>
-  
+
+  <div id="endPoll">
+    End Poll
+    <form onsubmit="endPoll(); return false;">
+      <select id="pollOptions"></select>
+      <input id="submitPoll" type="submit" value="Submit" />
+    </form>
+  </div>
+
 
 
 </body>

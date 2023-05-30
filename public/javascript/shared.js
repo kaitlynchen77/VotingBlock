@@ -28,7 +28,7 @@ async function connectContract() {
         abi = data.abi;
       })
       .catch(err => console.error(err));
-    contract = await new web3.eth.Contract(abi, "0x372703402e902Ad99690CBC6Fe40F74248D5510b"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
   }
 
 function getActiveGroups() {

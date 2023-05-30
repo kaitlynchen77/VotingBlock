@@ -1,5 +1,6 @@
 let groupSelection;
 let activeGroups2=[];
+let numOptions = 2;
 
 window.onload = intialize();
 
