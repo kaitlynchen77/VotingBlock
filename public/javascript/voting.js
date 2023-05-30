@@ -9,11 +9,12 @@ const activeGroups = [];
 window.onload = initialize();
 
 
+
 async function initialize() {
   
   // Is there an injected web3 instance?
   if (typeof web3 !== 'undefined') {
-    console.log(typeof web3);
+    console.log('metamask injected')
     web3Provider = window.web3.currentProvider;
     web3 = new Web3(window.web3.currentProvider);
   } else {
@@ -25,6 +26,8 @@ async function initialize() {
   await connectContract();
   accounts = await web3.eth.getAccounts();
   groups = await contract.methods.getGroups().call();
+  console.log("hello")
+
   console.log(groups);
   await getActiveGroups();
   await renderBallots();
@@ -36,7 +39,7 @@ async function connectContract() {
       abi = data.abi;
     })
     .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0x565847ed28f01E592bD0614Bc054FB9757A1627F"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0xE437fe303f4EbAA005cbDe94e1E06D01a6678673"); // change this address every time you recompile/deploy
 }
 function getActiveGroups() {
   for (let i = 0; i < groups.length; i++) { // groups[i] iterates through each group in groups

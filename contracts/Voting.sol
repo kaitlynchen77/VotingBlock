@@ -4,23 +4,23 @@ pragma solidity ^0.8.0;
 
 contract Voting {
     
-    // Candidate struct
-    struct Candidate {
+    // Option struct
+    struct Option {
         string name;
         uint voteCount;
     }
 
     // Structure of election
-    struct Election {
+    struct Poll {
         string electionTitle;
-        Candidate[] candidates;
+        Option[] options;
         address[] voted;  // members addresses for those who have already voted
     }
 
     struct Group {
         string groupTitle;
-        Election[] elections; // active elections
-        Election[] completed; // completed elections
+        Poll[] elections; // active elections
+        Poll[] completed; // completed elections
         address[] members; // Array of member addresses
         address adminAddress;
     }
@@ -28,13 +28,15 @@ contract Voting {
     // Array of groups
     Group[] public groups;
 
-    // Constructor to initialize the candidates
+    // Constructor to initialize the options
     constructor() {
         createGroup('main');
-        createElection(0, '2016 dem primary');
-        createCandidate(0, 'Candidate 1');
-        createCandidate(0, 'Candidate 2');
+        string[] memory options = new string[](2);
+        options[0] = "Senator Sanders";
+        options[1] = "Secretary Clinton";        
+        createPoll(0, '2016 dem primary', options);
     }
+
     // adds a new group to groups[]
     function createGroup(string memory name) public { 
         // Expand the storage array
@@ -44,38 +46,37 @@ contract Voting {
         newGroup.adminAddress=msg.sender;// set admin to the address which calls the function
         newGroup.members.push(newGroup.adminAddress);
     }
-    
-    // adds a new election to a specified group in groups[]
-    // function createElection(uint groupID, string memory name) public { 
-    //     Election[] storage elections = groups[groupID].elections;
-    //     elections.push();
-    //     Election storage newElection = elections[elections.length-1];
-    //     newElection.electionTitle=name;
+
+   function createPoll(uint groupID, string memory name, string[] memory names) public { 
+        require(msg.sender == groups[groupID].adminAddress);
+        Poll[] storage elections = groups[groupID].elections;
+        elections.push();
+        Poll storage newPoll = elections[elections.length-1];
+        newPoll.electionTitle=name;
+        for(uint i = 0; i < names.length; i++) {
+            newPoll.options.push(Option(names[i], 0));
+        }
+    } 
+
+    // adds a new candidate to the last election in a specified group
+    // function createOptions(uint groupID, string[] memory names) public {
+    //     Option[] storage options = groups[groupID].elections[groups[groupID].elections.length - 1].options;
+    //     for(uint i = 0; i < names.length; i++) {
+    //         options.push(Option(names[i], 0));
+    //     }
     // }
 
-   function createElection(uint groupID, string memory name) public { 
-        require(msg.sender == groups[groupID].adminAddress);
-        Election[] storage elections = groups[groupID].elections;
-        elections.push();
-        Election storage newElection = elections[elections.length-1];
-        newElection.electionTitle=name;
-    }    
-    // adds a new candidate to the last election in a specified group
-    function createCandidate(uint groupID, string memory name) public {
-        Candidate[] storage candidates = groups[groupID].elections[groups[groupID].elections.length - 1].candidates;
-        candidates.push(Candidate(name, 0));
-    }
     function getGroups() public view returns (Group[] memory) {
         return groups;
     }
 
-    function getElections(uint groupID) public view returns(Election[] memory) {
+    function getPolls(uint groupID) public view returns(Poll[] memory) {
         return groups[groupID].elections;
     }
 
     // Function to vote for a candidate
     function vote(uint groupID, uint electionIndex, uint candidateIndex) public {
-        Election storage election = groups[groupID].elections[electionIndex];
+        Poll storage election = groups[groupID].elections[electionIndex];
         address[] storage members = groups[groupID].members;
         uint i = 0;
         for(; i < members.length; i++) { // checks if user is a member of the group
@@ -92,9 +93,9 @@ contract Voting {
             }
             if(i==election.voted.length) {
                 // Check if candidate index is valid
-                require(candidateIndex >= 0 && candidateIndex < election.candidates.length, "Invalid candidate index");
+                require(candidateIndex >= 0 && candidateIndex < election.options.length, "Invalid candidate index");
                 // Increment the vote count for the candidate
-                election.candidates[candidateIndex].voteCount++;
+                election.options[candidateIndex].voteCount++;
                 election.voted.push(msg.sender);
             }
         }
@@ -103,12 +104,12 @@ contract Voting {
 
     // Function to get the name and vote count for a candidate
     function getCandidate(uint groupID, uint electionIndex, uint candidateIndex) public view returns (string memory, uint) {
-        Election storage election = groups[groupID].elections[electionIndex];
+        Poll storage election = groups[groupID].elections[electionIndex];
         // Check if candidate index is valid
-        require(candidateIndex >= 0 && candidateIndex < election.candidates.length, "Invalid candidate index");
+        require(candidateIndex >= 0 && candidateIndex < election.options.length, "Invalid candidate index");
 
         // Return the name and vote count for the candidate
-        return (election.candidates[candidateIndex].name, election.candidates[candidateIndex].voteCount);
+        return (election.options[candidateIndex].name, election.options[candidateIndex].voteCount);
     }
 
     function addMember(uint groupID, address member_address) public{
@@ -146,7 +147,7 @@ contract Voting {
     }
 
     function endElection (uint groupID, uint electionIndex) public {
-        Election[] storage elections = groups[groupID].elections;
+        Poll[] storage elections = groups[groupID].elections;
         groups[groupID].completed.push(elections[electionIndex]);
         for(uint i = electionIndex; i < elections.length-1; i++) {
             elections[i]=elections[i+1];

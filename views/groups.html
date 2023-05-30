@@ -23,10 +23,24 @@
       <!-- temporary hardcoding -->
       <input type="hidden" id="group-ID" name="groupID" value='0'>
     </div>
-    <div>
+    <div id="poll-form">
       <label>
-        <input type="text" id="election-title" name="title" placeholder="Election Title" />
+        <input type="text" id="poll-title" name="title" placeholder="Poll Title" />
       </label>
+      <div>
+        <label>
+          <input type="text" id="option-name1" name="option" placeholder="option 1" />
+        </label>
+      </div>
+      <div>
+        <label>
+          <input type="text" id="option-name2" name="option" placeholder="option 2" />
+        </label>
+      </div>
+      <div id="additional-option-fields">
+
+      </div>
+      <button type="button" onClick="addOption()">Add Option</button>
     </div>
     <div>
       <input type="submit" />
@@ -38,7 +52,7 @@
     <div>
       Add Member: Add a member through their address
     </div>
-    
+
     <div>
       <label>
         <input type="text" id="add-member-address" name="member-address" placeholder="member address" />
@@ -53,7 +67,7 @@
     <div>
       Remove Member: Remove a member through their address
     </div>
-    
+
     <div>
       <label>
         <input type="text" id="remove-member-address" name="member-address" placeholder="member address" />
