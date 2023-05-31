@@ -2,11 +2,11 @@ let groupSelection;
 let activeGroups2=[];
 let numOptions = 2;
 
-window.onload = intialize();
+window.onload = initialize();
 
 // slight lag for hiding divs
 
-async function intialize() {
+async function initialize() {
   await sharedInitialize();
   await getActiveGroups2();
   const pollOptions = document.getElementById("pollOptions");

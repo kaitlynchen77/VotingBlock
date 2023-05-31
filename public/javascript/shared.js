@@ -19,7 +19,6 @@ async function sharedInitialize() {
     } 
     await connectContract();
     groups=await contract.methods.getGroups().call();
-    console.log(groups);
     await getActiveGroups();
 }
 async function connectContract() {

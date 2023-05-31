@@ -7,9 +7,10 @@ async function initialize() {
 function rendercurrent() {
     const current = document.querySelector("#current_polls");
     const past = document.querySelector("#past_polls");
-
+    const groupsDiv = document.querySelector("#groupsDiv")
     //iterate through groups (vertically spaced)
     for (let i = 0; i < activeGroups.length; i++) {
+      groupsDiv.innerHTML+="<h1>"+groups[activeGroups[i]].groupTitle+"</h1>";
       //iterate through polls (horizontally spaced)
       for (let j = 0; j < groups[activeGroups[i]].polls.length; j++) {
           current.innerHTML += "<div id='c_group" + activeGroups[i] + "poll" + j + "'>  </div>";
