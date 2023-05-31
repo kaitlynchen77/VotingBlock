@@ -115,25 +115,28 @@ function groupsDropdown() {
   }
 }
 function updatePage() {
-  groupSelection = Number(groupOptions.value);
-  let polls = groups[groupSelection].polls; // this appears multiple times throughout the code
-  let members = groups[groupSelection].members;
-  pollOptions.innerHTML = "";
-  if (polls.length == 0) {
-    document.getElementById("endPoll").style.display = "none";
-  } else {
-    for (let i = 0; i < polls.length; i++) {
-      pollOptions.innerHTML += "<option value='" + i + "'>" + polls[i].pollTitle + "</option>";
+  if(activeGroups2.length>0) {
+    groupSelection = Number(groupOptions.value);
+    let polls = groups[groupSelection].polls; // this appears multiple times throughout the code
+    let members = groups[groupSelection].members;
+    pollOptions.innerHTML = "";
+    if (polls.length == 0) {
+      document.getElementById("endPoll").style.display = "none";
+    } else {
+      for (let i = 0; i < polls.length; i++) {
+        pollOptions.innerHTML += "<option value='" + i + "'>" + polls[i].pollTitle + "</option>";
+      }
+    }
+    memberOptions.innerHTML = "";
+    if (members.length == 1) {
+      document.getElementById("removeMember").style.display = "none";
+    } else {
+      for (let i = 1; i < members.length; i++) { // i starts at 1 because we do not want to include the admin themself
+        memberOptions.innerHTML += "<option value='" + members[i] + "'>" + members[i] + "</option>";
+      }
     }
   }
-  memberOptions.innerHTML = "";
-  if (members.length == 1) {
-    document.getElementById("removeMember").style.display = "none";
-  } else {
-    for (let i = 1; i < members.length; i++) { // i starts at 1 because we do not want to include the admin themself
-      memberOptions.innerHTML += "<option value='" + members[i] + "'>" + members[i] + "</option>";
-    }
-  }
+  
 }
 
 function addOption() {
