@@ -1,10 +1,16 @@
 window.onload = initialize();
 
 async function initialize() {
-  await sharedInitialize();
-  console.log(accounts);
-  if(accounts.length > 0) {
-    window.location.href = "./home";
+  // check connection to metamask
+  if (typeof web3 !== 'undefined') { // metamask is installed
+    web3Provider = window.web3.currentProvider;
+    web3 = new Web3(window.web3.currentProvider);
+    accounts = await web3.eth.getAccounts();
+    if(accounts.length > 0) {
+      window.location.href = "./home";
+    }
+  } else {
+    alert("Please install metamask.");
   }
 }
 

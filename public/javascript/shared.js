@@ -11,15 +11,16 @@ async function sharedInitialize() {
       web3Provider = window.web3.currentProvider;
       web3 = new Web3(window.web3.currentProvider);
       accounts = await web3.eth.getAccounts();
-      if(window.location.pathname !== '/' && accounts.length ==0) { // user is not logged in
+      if(accounts.length==0) { // user is not logged in
         window.location.href = "./";
-        await connectContract();
-        groups=await contract.methods.getGroups().call();
-        await getActiveGroups();
       }
     } else {
       window.location.href = "./";
     } 
+    await connectContract();
+    groups=await contract.methods.getGroups().call();
+    console.log(groups);
+    await getActiveGroups();
 }
 async function connectContract() {
     await fetch('./Voting.json')
@@ -28,7 +29,7 @@ async function connectContract() {
         abi = data.abi;
       })
       .catch(err => console.error(err));
-  contract = await new web3.eth.Contract(abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(abi, "0x0c85DAF4c7E28856674D187f5ABB041D8C19b7D4"); // change this address every time you recompile/deploy
   }
 
 function getActiveGroups() {
