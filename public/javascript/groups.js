@@ -114,6 +114,7 @@ function groupsDropdown() {
     }
   }
 }
+
 function updatePage() {
   if(activeGroups2.length>0) {
     groupSelection = Number(groupOptions.value);
