@@ -11,15 +11,15 @@ async function sharedInitialize() {
       web3Provider = window.web3.currentProvider;
       web3 = new Web3(window.web3.currentProvider);
       accounts = await web3.eth.getAccounts();
-      if(accounts.length ==0) { // user is not logged in
+      if(window.location.pathname !== '/' && accounts.length ==0) { // user is not logged in
         window.location.href = "./";
+        await connectContract();
+        groups=await contract.methods.getGroups().call();
+        await getActiveGroups();
       }
     } else {
       window.location.href = "./";
     } 
-    await connectContract();
-    groups=await contract.methods.getGroups().call();
-    await getActiveGroups();
 }
 async function connectContract() {
     await fetch('./Voting.json')
