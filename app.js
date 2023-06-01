@@ -32,10 +32,10 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.use('/', indexRouter);
-app.use('/voting', votingRouter)
+app.use('/vote', votingRouter)
 app.use('/home', homeRouter)
 app.use('/test', testRouter)
-app.use('/groups', groupsRouter)
+app.use('/manage', groupsRouter)
 app.use('/results', resultsRouter)
 
 
@@ -46,15 +46,15 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+// // error handler
+// app.use(function(err, req, res, next) {
+//   // set locals, only providing error in development
+//   res.locals.message = err.message;
+//   res.locals.error = req.app.get('env') === 'development' ? err : {};
+//   // render the error page
+//   res.status(err.status || 500);
+//   res.render('error');
+// });
 
 
 // truffle docs - doesn't work currently
