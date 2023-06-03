@@ -1,3 +1,4 @@
+let connected = false;
 window.onload = initialize();
 
 async function initialize() {
@@ -7,7 +8,7 @@ async function initialize() {
     web3 = new Web3(window.web3.currentProvider);
     accounts = await web3.eth.getAccounts();
     if(accounts.length > 0) {
-      window.location.href = "./home";
+      connected = true;
     }
   } else {
     alert("Please install metamask.");
@@ -15,6 +16,13 @@ async function initialize() {
 }
 
 async function connect() { // code adapted from https://github.com/nikitamarcius
+  // If already connected, direct to results page
+  if (connected) {
+    window.location.href = "./results";
+    return;
+  }
+
+  // if not already connected, prompt user to sign in with Metamask
   try {
     await window.ethereum.request({
       method: "wallet_requestPermissions",
