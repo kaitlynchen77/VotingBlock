@@ -18,8 +18,9 @@
       {% block title %}{% endblock %}
     </title>
   </head>
-
-  <body>
+{%block body%}
+<body>
+{%endblock%}
     {% block navbar %}
       {# This code was strongly inspired by https://getbootstrap.com/docs/5.3/components/navbar/ #}
       <nav class="navbar navbar-expand-md bg-light">
@@ -51,5 +52,5 @@
         </div>
       </nav>
     {% endblock %}
-    {% block body %}{% endblock %}
-  </body>
+    {% block bodyContent %}{% endblock %}
+</body>
