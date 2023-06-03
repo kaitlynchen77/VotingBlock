@@ -18,39 +18,46 @@
       {% block title %}{% endblock %}
     </title>
   </head>
-{%block body%}
-<body>
-{%endblock%}
-    {% block navbar %}
-      {# This code was strongly inspired by https://getbootstrap.com/docs/5.3/components/navbar/ #}
-      <nav class="navbar navbar-expand-md bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">
-            <img src="images/logo-no-background.svg" alt="Logo" width="100" height="28"
+  {%block body%}
+    <body>
+      {%endblock%}
+      {% block navbar %}
+        {# This code was strongly inspired by https://getbootstrap.com/docs/5.3/components/navbar/ #}
+        <nav class="navbar navbar-expand-md bg-light">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+              <img src="images/logo-no-background.svg" alt="Logo" width="100" height="28"
                     class="d-inline-block align-text-top">
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="vote">Vote</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="manage">Manage</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="results">Results</a>
-              </li>
-
-            </ul>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  {%block navHome%}
+                    <a class="nav-link" href="/">Home</a>
+                  {%endblock%}
+                </li>
+                <li class="nav-item">
+                  {%block navVote%}
+                    <a class="nav-link" href="vote">Vote</a>
+                  {%endblock%}
+                </li>
+                <li class="nav-item">
+                  {%block navManage%}
+                    <a class="nav-link" href="manage">Manage</a>
+                  {%endblock%}
+                </li>
+                <li class="nav-item">
+                  {%block navResults%}
+                    <a class="nav-link" href="results">Results</a>
+                  {%endblock%}
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </nav>
-    {% endblock %}
-    {% block bodyContent %}{% endblock %}
-</body>
+        </nav>
+      {% endblock %}
+      {% block bodyContent %}{% endblock %}
+    </body>

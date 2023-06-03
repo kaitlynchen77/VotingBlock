@@ -1,3 +1,5 @@
+/* Strongly inspired by https://getbootstrap.com/docs/5.3/examples/cover/, written by Twitter user @mdo*/
+
 /*
  * Globals
  */
@@ -52,4 +54,12 @@ body {
 .nav-masthead .active {
   color: #fff;
   border-bottom-color: #fff;
+}
+
+#main-text {
+  color: white;
+}
+
+#get-started {
+  color: red
 }

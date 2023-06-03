@@ -1,3 +1,4 @@
+{# Page strongly inspired by https://getbootstrap.com/docs/5.3/examples/cover/, written by Twitter user @mdo*/ #}
 {% extends "base.njk" %}
 {% block title %} Home {% endblock %}
 {% block scripts %}
@@ -23,10 +24,12 @@
       </header>
 
       <main class="px-3">
-        <h1>Welcome.</h1>
-        <p class="lead">Log into your Metamask account to enter your transparent, blockchain-backed voting experience.</p>
+        <div id="main-text">
+          <h1>Welcome.</h1>
+          <p class="lead">Log into your Metamask account to enter your transparent, blockchain-backed voting experience.</p>
+        </div>
         <p class="lead">
-          <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white" type="button" onclick="connect();">Get Started</a>
+          <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white" id="get-started" type="button" onclick="connect();">Get Started</a>
         </p>
       </main>
 
