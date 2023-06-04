@@ -1,0 +1,8 @@
+.shaded-box {
+    background-color: #f2f2f2; /* Set the background color */
+    border: 1px solid #ccc; /* Add a border */
+    padding: 10px; /* Add padding for content */
+    border-radius: 8px; /* Apply rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
+}
+  

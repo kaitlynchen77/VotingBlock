@@ -7,7 +7,7 @@ async function initialize() {
     web3 = new Web3(window.web3.currentProvider);
     accounts = await web3.eth.getAccounts();
     if(accounts.length > 0) {
-      window.location.href = "./home";
+      window.location.href = "./results";
     }
   } else {
     alert("Please install metamask.");
@@ -26,7 +26,7 @@ async function connect() { // code adapted from https://github.com/nikitamarcius
     const accounts = await ethereum.request({
       method: 'eth_requestAccounts'
     });
-    window.location.href = './home';
+    window.location.href = './results';
   } catch (error) {
     if (error.code === 4001) {
       console.log('User canceled the request or denied permission');
