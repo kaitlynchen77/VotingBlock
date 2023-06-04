@@ -1,0 +1,41 @@
+{% extends "base.njk" %}
+{% block title %} Vote {% endblock %}
+{% block scripts %}
+  <script src="javascript/shared.js"></script>
+  <script src="javascript/vote.js"></script>
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="stylesheets/vote.css"/>
+{% endblock %}
+{%block navVote%}
+  <a class="nav-link active" aria-current="page" href="#">Vote</a>
+{%endblock%}
+{%block bodyContent%}
+      <form onsubmit="vote();">
+        <div id="ballots"></div>
+      </form>
+{%endblock%}
+{#
+<body>
+  <form onsubmit="vote(); return false;">
+    <div>
+      <label>
+        <input type="radio" id="sanders" name="candidate" value="0" />
+        Senator Sanders
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="radio" id="clinton" name="candidate" value="1" />
+        Secretary Clinton
+      </label>
+    </div>
+    <div>
+      <input type="submit" />
+    </div>
+  </form>
+  <button onclick="vote();">VOTE</button>
+</body>
+
+</html>
+#}
