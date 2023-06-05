@@ -12,91 +12,168 @@ function displayGroups() {
   // Iterate through groups
   for (let i = 0; i < activeGroups.length; i++) {
     const group = groups[activeGroups[i]];
-    const groupId = "carouselGroup" + i;
+
+    // following code modified from https://getbootstrap.com/docs/5.3/components/carousel/, with help from ChatGPT
+
+    //creating carousel of current elections
+    const groupIdCurr = "carouselGroupCurrent" + i;
 
     // Create carousel container for the group
-    const carouselContainer = document.createElement("div");
-    carouselContainer.id = groupId;
-    carouselContainer.classList.add("carousel");
-    carouselContainer.classList.add("slide");
+    const carouselContainerCurr = document.createElement("div");
+    carouselContainerCurr.id = groupIdCurr;
+    carouselContainerCurr.classList.add("carousel");
+    carouselContainerCurr.classList.add("slide");
 
     // Create carousel inner container
-    const carouselInner = document.createElement("div");
-    carouselInner.classList.add("carousel-inner");
-
-    // Iterate through polls
-    for (let j = 0; j < group.polls.length; j++) {
-      const poll = group.polls[j];
-      const pollId = groupId + "Poll" + j;
-
-      // Create carousel item
-      const carouselItem = document.createElement("div");
-      carouselItem.classList.add("carousel-item");
-      if (j === 0) {
-        carouselItem.classList.add("active");
-      }
-
-      // Create poll container
-      const pollContainer = document.createElement("div");
-      pollContainer.classList.add("custom-slide");
-      pollContainer.classList.add("shaded-box"); // Apply shaded box style
-      pollContainer.id = pollId;
-
-      // Create poll title element
-      const pollTitle = document.createElement("h2");
-      pollTitle.innerText = poll.pollTitle;
-      pollContainer.appendChild(pollTitle);
-
-      // Iterate through options
-      for (let k = 0; k < poll.options.length; k++) {
-        const option = poll.options[k];
-        const optionText = document.createTextNode(option.name + " -- " + option.voteCount);
-        pollContainer.appendChild(optionText);
-        pollContainer.appendChild(document.createElement("br"));
-      }
-
-      // Append poll container to carousel item
-      carouselItem.appendChild(pollContainer);
-
-      // Append carousel item to carousel inner container
-      carouselInner.appendChild(carouselItem);
-    }
+    const carouselInnerCurr = document.createElement("div");
+    carouselInnerCurr.classList.add("carousel-inner");
 
     // If no current elections, display message
     if (group.polls.length === 0) {
-      const noElections = document.createElement("div");
-      noElections.innerText = "No current polls.";
-      noElections.classList.add("custom-slide");
-      noElections.classList.add("shaded-box"); // Apply shaded box style
-      carouselInner.appendChild(noElections);
-    }
+      const noElectionsCurr = document.createElement("div");
+      noElectionsCurr.innerText = "No current polls.";
+      noElectionsCurr.classList.add("custom-slide");
+      noElectionsCurr.classList.add("shaded-box"); // Apply shaded box style
+      carouselInnerCurr.appendChild(noElectionsCurr);
+    } else {
+      // Iterate through polls
+      for (let j = 0; j < group.polls.length; j++) {
+        const pollCurr = group.polls[j];
+        const pollIdCurr = groupIdCurr + "Poll" + j;
 
-    // Append carousel inner container to carousel container
-    carouselContainer.appendChild(carouselInner);
+        // Create carousel item
+        const carouselItemCurr = document.createElement("div");
+        carouselItemCurr.classList.add("carousel-item");
+        if (j === 0) {
+          carouselItemCurr.classList.add("active");
+        }
 
-    // Create carousel controls
-    const carouselControls = document.createElement("div");
-    carouselControls.innerHTML =
-      `<a class="carousel-control-prev" href="#${groupId}" role="button" data-slide="prev">
+        // Create poll container
+        const pollContainerCurr = document.createElement("div");
+        pollContainerCurr.classList.add("custom-slide");
+        pollContainerCurr.classList.add("shaded-box"); // Apply shaded box style
+        pollContainerCurr.id = pollIdCurr;
+
+        // Create poll title element
+        const pollTitleCurr = document.createElement("h2");
+        pollTitleCurr.innerText = pollCurr.pollTitle;
+        pollContainerCurr.appendChild(pollTitleCurr);
+
+        // Iterate through options
+        for (let k = 0; k < pollCurr.options.length; k++) {
+          const optionCurr = pollCurr.options[k];
+          const optionTextCurr = document.createTextNode(optionCurr.name + " -- " + optionCurr.voteCount);
+          pollContainerCurr.appendChild(optionTextCurr);
+          pollContainerCurr.appendChild(document.createElement("br"));
+        }
+
+        // Append poll container to carousel item
+        carouselItemCurr.appendChild(pollContainerCurr);
+
+        // Append carousel item to carousel inner container
+        carouselInnerCurr.appendChild(carouselItemCurr);
+      }
+      // Create carousel controls
+      const carouselControlsCurr = document.createElement("div");
+      carouselControlsCurr.innerHTML =
+      `<button class="carousel-control-prev" type="button" data-bs-target="#${groupIdCurr}" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#${groupId}" role="button" data-slide="next">
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#${groupIdCurr}" data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>`;
+        <span class="visually-hidden">Next</span>
+      </button>`;
 
-    // Append carousel controls to carousel container
-    carouselContainer.appendChild(carouselControls);
+      // Append carousel controls to carousel container
+      carouselContainerCurr.appendChild(carouselControlsCurr);
 
+    }
+    // Append carousel inner container to carousel container
+    carouselContainerCurr.appendChild(carouselInnerCurr);
     // Append carousel container to the document
-    current.appendChild(carouselContainer);
-    var carousel = document.querySelector('#' + groupId);
-    new bootstrap.Carousel(carousel, {
-      interval: false,
-      wrap: true,
-      keyboard: false,
-      pause: "hover"
-    });
+    current.appendChild(carouselContainerCurr);
+
+    
+    // creating carousel of past elections
+    const groupIdPast = "carouselGroupPast" + i;
+
+    // Create carousel container for the group
+    const carouselContainerPast = document.createElement("div");
+    carouselContainerPast.id = groupIdPast;
+    carouselContainerPast.classList.add("carousel");
+    carouselContainerPast.classList.add("slide");
+
+    // Create carousel inner container
+    const carouselInnerPast = document.createElement("div");
+    carouselInnerPast.classList.add("carousel-inner");
+
+    // If no current elections, display message
+    if (group.completed.length === 0) {
+      const noElectionsPast = document.createElement("div");
+      noElectionsPast.innerText = "No past polls.";
+      noElectionsPast.classList.add("custom-slide");
+      noElectionsPast.classList.add("shaded-box"); // Apply shaded box style
+      carouselInnerPast.appendChild(noElectionsPast);
+    } else {
+      // Iterate through polls
+      for (let j = 0; j < group.completed.length; j++) {
+        const pollPast = group.completed[j];
+        const pollIdPast = groupIdPast + "Poll" + j;
+
+        // Create carousel item
+        const carouselItemPast = document.createElement("div");
+        carouselItemPast.classList.add("carousel-item");
+        if (j === 0) {
+          carouselItemPast.classList.add("active");
+        }
+
+        // Create poll container
+        const pollContainerPast = document.createElement("div");
+        pollContainerPast.classList.add("custom-slide");
+        pollContainerPast.classList.add("shaded-box"); // Apply shaded box style
+        pollContainerPast.id = pollIdPast;
+
+        // Create poll title element
+        const pollTitlePast = document.createElement("h2");
+        pollTitlePast.innerText = pollPast.pollTitle;
+        pollContainerPast.appendChild(pollTitlePast);
+
+        // Iterate through options
+        for (let k = 0; k < pollPast.options.length; k++) {
+          const optionPast = pollPast.options[k];
+          const optionTextPast = document.createTextNode(optionPast.name + " -- " + optionPast.voteCount);
+          pollContainerPast.appendChild(optionTextPast);
+          pollContainerPast.appendChild(document.createElement("br"));
+        }
+
+        // Append poll container to carousel item
+        carouselItemPast.appendChild(pollContainerPast);
+
+        // Append carousel item to carousel inner container
+        carouselInnerPast.appendChild(carouselItemPast);
+      }
+
+      if(group.completed.length>1) {
+        // Create carousel controls
+        const carouselControlsPast = document.createElement("div");
+        carouselControlsPast.innerHTML =
+        `<button class="carousel-control-prev" type="button" data-bs-target="#${groupIdPast}" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#${groupIdPast}" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>`;
+
+        // Append carousel controls to carousel container
+        carouselContainerPast.appendChild(carouselControlsPast);
+      }
+    }
+    // Append carousel inner container to carousel container
+    carouselContainerPast.appendChild(carouselInnerPast);
+    // Append carousel container to the document
+    past.appendChild(carouselContainerPast);
   }
 }
