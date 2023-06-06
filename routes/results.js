@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET voting page. */
 router.get('/', function(req, res, next) {
-  res.render('results');
+  res.render('results.njk');
 });
 
 module.exports = router;
