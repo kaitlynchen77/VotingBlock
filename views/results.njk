@@ -1,0 +1,20 @@
+{% extends "base.njk" %}
+{% block title %} Vote {% endblock %}
+{% block scripts %}
+  <script src="javascript/shared.js"></script>
+  <script src="javascript/results.js"></script>
+{% endblock %}
+{% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="stylesheets/results.css"/>
+{% endblock %}
+{%block navResults%}
+  <a class="nav-link active" aria-current="page" href="#">Results</a>
+{%endblock%}
+{%block bodyContent%}
+  <h1>Current Elections</h1>
+  <div id="current_polls"></div>
+
+  <h1>Past Elections</h1>
+
+  <div id="past_polls"></div>
+{%endblock%}

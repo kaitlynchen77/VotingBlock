@@ -1,11 +1,22 @@
 .shaded-box {
-    background-color: #959595; /* Set the background color */
+    background-color: #b1b1b1; /* Set the background color */
     border: 1px solid #ccc; /* Add a border */
-    padding: 20px 50px; /* Add padding for content */
+    padding: 70px 50px 70px 140px; /* Add padding for content */
+
     border-radius: 8px; /* Apply rounded corners */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle box shadow */
 }
 .carousel {
-    max-width: 80%; /* change to your desired width */
+    max-width: 70%; /* change to your desired width */
     margin: 0 auto; /* centers the carousel */
-  }
+}
+h1 {
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 70px;
+    font-weight: bolder;
+}
+body {
+    font-family: monospace;
+    padding-bottom: 70px;
+}
