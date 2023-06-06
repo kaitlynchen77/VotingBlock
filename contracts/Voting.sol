@@ -28,15 +28,6 @@ contract Voting {
     // Array of groups
     Group[] public groups;
 
-    // Constructor to initialize the options
-    constructor() {
-        createGroup('main');
-        string[] memory options = new string[](2);
-        options[0] = "Senator Sanders";
-        options[1] = "Secretary Clinton";        
-        createPoll(0, '2016 dem primary', options);
-    }
-
     // adds a new group to groups[]
     function createGroup(string memory name) public { 
         // Expand the storage array

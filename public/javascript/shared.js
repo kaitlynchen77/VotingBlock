@@ -24,7 +24,7 @@ async function sharedInitialize() {
 async function connectContract() {
   const response = await fetch('./Voting.json');
   const responseJSON = await response.json();
-  contract = await new web3.eth.Contract(responseJSON.abi, "0x05cC7c8bfA02dDa3e80213F64C36994495bb17aD"); // change this address every time you recompile/deploy
+  contract = await new web3.eth.Contract(responseJSON.abi, "0x8BDd944C9D0D8C13727a2425332DeD612e951f91"); // change this address every time you recompile/deploy
 }
 
 function getActiveGroups() {
