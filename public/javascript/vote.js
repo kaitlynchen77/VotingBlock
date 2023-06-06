@@ -39,6 +39,8 @@ function renderBallots() {
       if(k==voted.length) {
         ballots.innerHTML += "<div id='group" + activeGroups[i] + "poll" + j + "'>  </div>";
         const ballot = document.querySelector('#group' + activeGroups[i] + 'poll' + j);
+        // render election title
+        ballot.innerHTML += '<p>' + groups[activeGroups[i]].polls[j].pollTitle + '</p>'
         //iterate through options
         for (let k = 0; k < groups[activeGroups[i]].polls[j].options.length; k++) {
           ballot.innerHTML += `
